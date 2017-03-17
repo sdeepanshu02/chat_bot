@@ -1,0 +1,23 @@
+sudo apt-get install python3-venv
+python3 -m venv amoc
+amoc/bin/pip install flask
+amoc/bin/pip install APScheduler
+amoc/bin/pip install Flask-SQLAlchemy
+amoc/bin/pip install Jinja2
+amoc/bin/pip install MarkupSafe
+amoc/bin/pip install SQLAlchemy
+amoc/bin/pip install Werkzeug
+amoc/bin/pip install apiai
+amoc/bin/pip install argparse
+amoc/bin/pip install click
+amoc/bin/pip install funcsigs
+amoc/bin/pip install futures
+amoc/bin/pip install gunicorn
+amoc/bin/pip install itsdangerous
+amoc/bin/pip install numpy
+amoc/bin/pip install pytz
+amoc/bin/pip install requests
+amoc/bin/pip install schedule
+amoc/bin/pip install six
+amoc/bin/pip install tzlocal
+amoc/bin/pip install wsgiref
