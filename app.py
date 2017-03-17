@@ -3,7 +3,7 @@ import sys
 import json
 
 import requests
-from flask import Flask, request
+from flask import Flask, request, make_response
 
 app = Flask(__name__)
 
@@ -51,7 +51,25 @@ def webhook():
                     pass
 
     return "ok", 200
+@app.route('/getdata', methods=['POST'])
+def getdata():
+    req = request.get_json(silent=True, force=True)
+    data = request.get_json()
+    print("Request:")
+    print(json.dumps(req, indent=4))
 
+    res = {
+        "speech": "Deepanshu The Great",
+        "displayText": "Deepanshu The Great",
+        # "data": data,
+        # "contextOut": [],
+        "source": "agent"
+        }
+    res = json.dumps(res, indent=4)
+    # print(res)
+    r = make_response(res)
+    r.headers['Content-Type'] = 'application/json'
+    return r
 
 def send_message(recipient_id, message_text):
 
