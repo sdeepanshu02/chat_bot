@@ -80,7 +80,8 @@ def process_text_message(msg):
     request.query = msg
     response = request.getresponse()
     log(response.read())
-    return response.read()["result"]["fulfillment"]["speech"]
+    response = json.loads(request.getresponse().read())
+    return response['result']['fulfillment']['speech']
 
 def send_message(recipient_id, message_text):
 
