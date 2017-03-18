@@ -27,7 +27,8 @@ def addrec():
     db.session.commit()
     a=posts.query.all()
     log(a)
-    return a
+    log("hello")
+    return str(a)
 
 @app.route('/', methods=['GET'])
 def verify():
