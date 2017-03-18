@@ -15,9 +15,9 @@ app.config.from_pyfile('app.cfg')
 class posts(db.Model):
     __tablename__='posts'
     id=db.Column(db.Integer,primary_key=True)
-    name=db.Column(db.String(100),index=True)
-    date=db.Column(db.String(14),index=True)
-    email=db.column(db.String(60),unique=True)
+    name=db.Column(db.String(100))
+    date=db.Column(db.String(14))
+    email=db.column(db.String(60))
 
 
 @app.route('/', methods=['GET'])
