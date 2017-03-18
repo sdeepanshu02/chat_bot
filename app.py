@@ -93,7 +93,7 @@ def getdata():
         list_of_posts = posts.query.all()
         for each_post in list_of_posts:
             if post == serch_value:
-                pass result=each_post.name
+                result = each_post.name
 
     print("***##########"+search_term+" "+search_col_name+" "+serch_value+" "+result)
     res = {
