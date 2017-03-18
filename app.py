@@ -87,10 +87,18 @@ def getdata():
     print(json.dumps(req, indent=4))
     print("*****************"+str(data["result"]["parameters"].values()))
     search_term = data["result"]["parameters"].values()[0]
-    print("***##########"+search_term)
+    serch_value,search_col_name = search_term.split('_')
+    result = "I don't know"
+    if search_col_name == "post":
+        list_of_posts = posts.query.all()
+        for each_post in list_of_posts:
+            if post == serch_value:
+                pass result=each_post.name
+
+    print("***##########"+search_term+" "+search_col_name+" "+serch_value+" "+result)
     res = {
-        "speech": "Deepanshu The Great",
-        "displayText": "Deepanshu The Great",
+        "speech": result,
+        "displayText": result,
         # "data": data,
         # "contextOut": [],
         "source": "agent"
