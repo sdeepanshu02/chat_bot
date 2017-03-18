@@ -47,8 +47,7 @@ def addposts(details):
 def delposts():
     posts.query.delete()
     db.session.commit()
-
-        return "sucessfully deleted"
+    return "sucessfully deleted"
 
 @app.route('/', methods=['GET'])
 def verify():
