@@ -5,9 +5,20 @@ import json
 import apiai
 import requests
 from flask import Flask, request, make_response
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'
+CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
+db = SQLAlchemy(app)
+app.config.from_pyfile('app.cfg')
+
+class posts(db.model):
+    __tablename__='posts'
+    id=db.Column(db.Integer,primary_key=True)
+    name=db.Column(db.String(100),index=True)
+    date=db.Column(db.String(14),index=True)
+    email=db.column(db.String(60),unique=True)
+
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -119,4 +130,5 @@ def log(message):  # simple wrapper for logging to stdout on heroku
 
 
 if __name__ == '__main__':
+    db.create_all()
     app.run(debug=True)
