@@ -85,7 +85,7 @@ def getdata():
     data = request.get_json()
     print("Request:")
     print(json.dumps(req, indent=4))
-    print("*****************"+str(data["result"]["parameters"]))
+    print("*****************"+str(data["result"]["parameters"].values()))
     res = {
         "speech": "Deepanshu The Great",
         "displayText": "Deepanshu The Great",
