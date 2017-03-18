@@ -16,9 +16,17 @@ class posts(db.Model):
     __tablename__='posts'
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(100))
-    date=db.Column(db.String(14))
+    post=db.Column(db.String(20))
+    contact=db.cloumn(db.String(14))
     email=db.column(db.String(60))
 
+@app.route('/addrec',methods=['GET'])
+def addrec():
+    pos = posts(name = 'S.R.Gandhi',post='director',contact='9824259166',email='tanishqq.khatri@gmail.com')
+    db.session.add(pos)
+    db.session.commit()
+    a=posts.query.all()
+    log(a)
 
 @app.route('/', methods=['GET'])
 def verify():
