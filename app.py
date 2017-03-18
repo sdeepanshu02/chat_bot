@@ -12,7 +12,7 @@ CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_
 db = SQLAlchemy(app)
 app.config.from_pyfile('app.cfg')
 
-class posts(db.model):
+class posts(db.Model):
     __tablename__='posts'
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(100),index=True)
