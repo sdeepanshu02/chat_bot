@@ -20,15 +20,21 @@ class posts(db.Model):
     contact=db.Column(db.String(14))
     email=db.Column(db.String(60))
 
+    def __repr__(self):
+        return '<Post %r>' % (self.body)
+
 @app.route('/addrec',methods=['GET'])
 def addrec():
-    pos = posts(name = 'S.R.Gandhi',post='director',contact='9824259166',email='tanishqq.khatri@gmail.com')
-    db.session.add(pos)
-    db.session.commit()
+    # pos = posts(name = 'S.R.Gandhi',post='director',contact='9824259166',email='tanishqq.khatri@gmail.com')
+    # db.session.add(pos)
+    # db.session.commit()
     a=posts.query.all()
     log(a)
     log("hello")
-    return str(a)
+    x=""
+    for p in a:
+        x=x+p.name+" "
+    return x
 
 @app.route('/', methods=['GET'])
 def verify():
