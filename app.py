@@ -22,9 +22,9 @@ class posts(db.Model):
 
 @app.route('/addrec',methods=['GET'])
 def addrec():
-    pos = posts(name = 'S.R.Gandhi',post='director',contact='9824259166',email='tanishqq.khatri@gmail.com')
-    db.session.add(pos)
-    db.session.commit()
+    # pos = posts(name = 'S.R.Gandhi',post='director',contact='9824259166',email='tanishqq.khatri@gmail.com')
+    # db.session.add(pos)
+    # db.session.commit()
     a=posts.query.all()
     log(a)
 
@@ -138,5 +138,4 @@ def log(message):  # simple wrapper for logging to stdout on heroku
 
 
 if __name__ == '__main__':
-    db.create_all()
     app.run(debug=True)
