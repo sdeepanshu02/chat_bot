@@ -17,8 +17,8 @@ class posts(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     name=db.Column(db.String(100))
     post=db.Column(db.String(20))
-    contact=db.cloumn(db.String(14))
-    email=db.column(db.String(60))
+    contact=db.Column(db.String(14))
+    email=db.Column(db.String(60))
 
 @app.route('/addrec',methods=['GET'])
 def addrec():
