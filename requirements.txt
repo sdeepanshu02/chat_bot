@@ -19,3 +19,5 @@ schedule==0.3.2
 six==1.10.0
 tzlocal==1.2.2
 wsgiref==0.1.2
+psycopg2==2.6.1
+whitenoise==2.0.6
