@@ -23,32 +23,6 @@ class posts(db.Model):
     def __repr__(self):
         return '<posts %r>' % (self.name)
 
-@app.route('/seeallpost',methods=['GET'])
-def seeallpost():
-
-    a=posts.query.all()
-    log(a)
-    log("hello")
-    x=""
-    for p in a:
-        x=x+p.name+" "+p.post+" "+p.contact+" "+p.email+"<br>"
-    return x
-
-@app.route('/add/posts/<details>',methods=['GET'])
-def addposts(details):
-    get_name, get_post, get_contact, get_email = details.split('_')
-    pos = posts(name = get_name, post = get_post, contact = get_contact, email = get_email)
-    db.session.add(pos)
-    db.session.commit()
-
-    return "sucessfully added"
-
-@app.route('/del/posts/all',methods=['GET'])
-def delposts():
-    posts.query.delete()
-    db.session.commit()
-    return "sucessfully deleted"
-
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
@@ -92,39 +66,37 @@ def webhook():
                     pass
 
     return "ok", 200
-@app.route('/getdata', methods=['POST'])
+
+@app.route('/getdata', methods=['POST'])    #This function process the information request of API.AI Query
 def getdata():
     req = request.get_json(silent=True, force=True)
     data = request.get_json()
     print("Request:")
     print(json.dumps(req, indent=4))
-    print("*****************"+str(data["result"]["parameters"].values()))
-    search_term = data["result"]["parameters"].values()[0]
+
+    search_term = data["result"]["parameters"].values()[0] #retrive the search term
     serch_value,search_col_name = search_term.split('_')
     result = "I don't know"
-    if search_col_name == "post":
+
+    if search_col_name == "post":                       # If Query is for post search in posts table
         list_of_posts = posts.query.all()
         for each_post in list_of_posts:
             if each_post.post == serch_value:
                 result = each_post.name
 
-    print("***##########"+search_term+" "+search_col_name+" "+serch_value+" "+result)
-    res = {
+    res = {                                                #Generate the result to send back to API.AI
         "speech": result,
         "displayText": result,
-        # "data": data,
-        # "contextOut": [],
         "source": "agent"
         }
     res = json.dumps(res, indent=4)
-    # print(res)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
 def process_text_message(msg):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
-    request = ai.text_request()
+    request = ai.text_request()    #make call to api.ai api
     request.lang = 'en'  # optional, default value equal 'en'
     request.session_id = "Ajf54Trh" #generate random session_id later
     request.query = msg
@@ -138,6 +110,31 @@ def process_text_message(msg):
 
     else:
         return ("Sorry, I couldn't understand that question")
+
+
+@app.route('/seeallpost',methods=['GET'])       #Function to see all entry in posts
+def seeallpost():
+    a=posts.query.all()
+    log(a)
+    log("hello")
+    x=""
+    for p in a:
+        x=x+p.name+" "+p.post+" "+p.contact+" "+p.email+"<br>"
+    return x
+
+@app.route('/add/posts/<details>',methods=['GET'])      #Function for add entry in posts
+def addposts(details):
+    get_name, get_post, get_contact, get_email = details.split('_')
+    pos = posts(name = get_name, post = get_post, contact = get_contact, email = get_email)
+    db.session.add(pos)
+    db.session.commit()
+    return "sucessfully added"
+
+@app.route('/del/posts/all',methods=['GET'])    #Function for delete all values in posts
+def delposts():
+    posts.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
 
 def send_message(recipient_id, message_text):
 
