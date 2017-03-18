@@ -23,18 +23,24 @@ class posts(db.Model):
     def __repr__(self):
         return '<posts %r>' % (self.name)
 
-@app.route('/addrec',methods=['GET'])
-def addrec():
-    # pos = posts(name = 'Manish Rathod',post='warden',contact='123456789',email='mr@gmail.com')
-    # db.session.add(pos)
-    # db.session.commit()
+@app.route('/seeallpost',methods=['GET'])
+def seeallpost():
+
     a=posts.query.all()
     log(a)
     log("hello")
     x=""
     for p in a:
-        x=x+p.name+" "
+        x=x+p.name+" "+p.post+" "+p.contact+" "+p.email+"<br>"
     return x
+
+@app.route('/add/posts/<name>/<post>/<contact>/<email>',methods=['GET'])
+def addposts(get_name,get_post,get_contact,get_email):
+    pos = posts(name = get_name, post = get_post, contact = get_contact, email = get_email)
+    db.session.add(pos)
+    db.session.commit()
+
+    return "sucessfully added"
 
 @app.route('/', methods=['GET'])
 def verify():
