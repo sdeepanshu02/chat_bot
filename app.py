@@ -34,8 +34,9 @@ def seeallpost():
         x=x+p.name+" "+p.post+" "+p.contact+" "+p.email+"<br>"
     return x
 
-@app.route('/add/posts/<name>/<post>/<contact>/<email>',methods=['GET'])
-def addposts(get_name,get_post,get_contact,get_email):
+@app.route('/add/posts/<details>',methods=['GET'])
+def addposts(details):
+    get_name, get_post, get_contact, get_email = details.split('_')
     pos = posts(name = get_name, post = get_post, contact = get_contact, email = get_email)
     db.session.add(pos)
     db.session.commit()
