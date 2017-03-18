@@ -25,7 +25,7 @@ class posts(db.Model):
 
 @app.route('/addrec',methods=['GET'])
 def addrec():
-    pos = posts(name = 'S.R.Gandhi',post='director',contact='9824259166',email='tanishqq.khatri@gmail.com')
+    pos = posts(name = 'Manish Rathod',post='warden',contact='123456789',email='mr@gmail.com')
     db.session.add(pos)
     db.session.commit()
     a=posts.query.all()
