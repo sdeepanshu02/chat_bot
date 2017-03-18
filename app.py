@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
 db = SQLAlchemy(app)
-app.config.from_pyfile('app.cfg')
+app.config.from_pyfile('app.cfg')   #config file
 
 class posts(db.Model):
     __tablename__='posts'
