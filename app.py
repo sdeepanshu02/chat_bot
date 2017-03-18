@@ -21,7 +21,7 @@ class posts(db.Model):
     email=db.Column(db.String(60))
 
     def __repr__(self):
-        return '<Post %r>' % (self.body)
+        return '<posts %r>' % (self.body)
 
 @app.route('/addrec',methods=['GET'])
 def addrec():
