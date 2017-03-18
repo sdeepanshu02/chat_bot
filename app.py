@@ -43,6 +43,13 @@ def addposts(details):
 
     return "sucessfully added"
 
+@app.route('/del/posts/all',methods=['GET'])
+def delposts():
+    posts.query.delete()
+    db.session.commit()
+
+        return "sucessfully deleted"
+
 @app.route('/', methods=['GET'])
 def verify():
     # when the endpoint is registered as a webhook, it must echo back
