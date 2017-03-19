@@ -84,6 +84,11 @@ def getdata():
             if each_post.post == serch_value:
                 result = each_post.name
 
+    if search_col_name=="contact":
+        list_of_contacts=posts.query.all()
+        for each_contact in list_of_contacts:
+            if each_contact.contact==search_value:
+                result=each_contact.contact
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
         "displayText": result,
