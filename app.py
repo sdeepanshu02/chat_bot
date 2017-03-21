@@ -44,8 +44,12 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-
-                    send_message(sender_id, process_text_message(message_text))
+                    regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
+                    pattern = re.compile(regex)
+                    if pattern.match(string):
+                        send_message(sender_id, "got ur subscribe message")
+                    else:
+                        send_message(sender_id, process_text_message(message_text))
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
