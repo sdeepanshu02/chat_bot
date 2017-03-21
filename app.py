@@ -84,10 +84,11 @@ def getdata():
         for each_post in list_of_posts:
             if each_post.post == search_value:
                 result = each_post.name
+
     elif intentName == "details_of_post":
         detail_term = parameters_dict["details"]
         search_entity = parameters_dict["post"]
-        ist_of_posts = posts.query.all()
+        list_of_posts = posts.query.all()
         for each_post in list_of_posts:
             if each_post.post == search_entity:
                 if detail_term == "name":
