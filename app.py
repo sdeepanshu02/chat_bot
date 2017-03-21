@@ -49,7 +49,8 @@ def webhook():
                     pattern = re.compile(regex)
                     string = message_text.upper()
                     if pattern.match(string):
-                        send_message(sender_id, "got ur subscribe message")
+                        add_subscriber(string,sender_id)
+                        send_message(sender_id, "You have been sucessfully subscribed !!")
                     else:
                         send_message(sender_id, process_text_message(message_text))
 
@@ -178,7 +179,11 @@ def send_message(recipient_id, message_text):
     if r.status_code != 200:
         log(r.status_code)
         log(r.text)
-
+def add_subscriber(request_string, user_id):
+    a,user_roll_no = search_term.split(' ')
+    user = subscribers(roll_no = user_roll_no, user_fb_id = user_id)
+    db.session.add(user)
+    db.session.commit()
 
 def log(message):  # simple wrapper for logging to stdout on heroku
     print str(message)
