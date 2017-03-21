@@ -71,15 +71,19 @@ def getdata():
     data = request.get_json()
     print("Request:")
     print(json.dumps(req, indent=4))
-    print("************"+data["result"]["metadata"]["intentName"])
-    search_term = data["result"]["parameters"].values()[0] #retrive the search term
-    serch_value,search_col_name = search_term.split('_')
+
+    intentName = data["result"]["metadata"]["intentName"]
+    print("************"+intentName)
+
+    parameters_dict = data["result"]["parameters"] #retrive the parameters_dict
     result = "I don't know"
 
-    if search_col_name == "post":                       # If Query is for post search in posts table
+    if intentName == "posts":                       # If Query is for post search in posts table
+        search_term = parameters_dict.values()[0]   #retrive the search term
+        search_value,search_col_name = search_term.split('_')
         list_of_posts = posts.query.all()
         for each_post in list_of_posts:
-            if each_post.post == serch_value:
+            if each_post.post == search_value:
                 result = each_post.name
 
     res = {                                                #Generate the result to send back to API.AI
