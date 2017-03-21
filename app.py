@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import re
 
 import apiai
 import requests
@@ -46,6 +47,7 @@ def webhook():
                     message_text = messaging_event["message"]["text"]  # the message's text
                     regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
                     pattern = re.compile(regex)
+                    string = message_text.upper()
                     if pattern.match(string):
                         send_message(sender_id, "got ur subscribe message")
                     else:
