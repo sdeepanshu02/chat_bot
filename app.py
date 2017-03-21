@@ -79,12 +79,23 @@ def getdata():
     result = "I don't know"
 
     if intentName == "posts":                       # If Query is for post search in posts table
-        search_term = parameters_dict.values()[0]   #retrive the search term
-        search_value,search_col_name = search_term.split('_')
+        search_value = parameters_dict.values()[0]   #retrive the search term
         list_of_posts = posts.query.all()
         for each_post in list_of_posts:
             if each_post.post == search_value:
                 result = each_post.name
+    elif intentName == "details_of_post":
+        detail_term = parameters_dict["details"]
+        search_entity = parameters_dict["post"]
+        ist_of_posts = posts.query.all()
+        for each_post in list_of_posts:
+            if each_post.post == search_entity:
+                if detail_term == "name":
+                    result = each_post.name
+                elif detail_term == "contact":
+                    result = each_post.contact
+                elif detail_term == "email":
+                    result = each_post.email
 
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
