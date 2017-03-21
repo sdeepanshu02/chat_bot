@@ -106,23 +106,23 @@ def getdata():
     res = json.dumps(res, indent=4)
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
-    warden1= warden(name='Dr. M.K. Rathod', hostelname = 'Gajjar Bhavan' ,contact='9876543210',email='gajj@warden.com')
-    warden2= warden(name='Dr. Rakesh Maurya', hostelname = 'Tagore Bhavan' ,contact='9873333210',email='tag@warden.com')
-    warden3= warden(name='Dr. V.D. Kalyankar', hostelname = 'Nehru Bhavan' ,contact='7776543210',email='neh@warden.com')
-    hod1=hod(name='Dr. Rupa G Mehta', deptname = 'Computer Engineering Department' ,contact='5777555550',email='coed@hod.com')
-    hod2=hod(name='Dr. K.P. Desai', deptname = 'Mechanical Engineering Department' ,contact='6666555550',email='med@hod.com')
-    hod3=hod(name='Dr. Z.V.P Murthy', deptname = 'Chemical Engineering Department' ,contact='5777544450',email='ced@hod.com')
-
-
-
-    db.session.add(warden1)
-    db.session.add(warden2)
-    db.session.add(warden3)
-    db.session.add(hod1)
-    db.session.add(hod2)
-    db.session.add(hod3)
-
-    db.session.commit()
+    # warden1= warden(name='Dr. M.K. Rathod', hostelname = 'Gajjar Bhavan' ,contact='9876543210',email='gajj@warden.com')
+    # warden2= warden(name='Dr. Rakesh Maurya', hostelname = 'Tagore Bhavan' ,contact='9873333210',email='tag@warden.com')
+    # warden3= warden(name='Dr. V.D. Kalyankar', hostelname = 'Nehru Bhavan' ,contact='7776543210',email='neh@warden.com')
+    # hod1=hod(name='Dr. Rupa G Mehta', deptname = 'Computer Engineering Department' ,contact='5777555550',email='coed@hod.com')
+    # hod2=hod(name='Dr. K.P. Desai', deptname = 'Mechanical Engineering Department' ,contact='6666555550',email='med@hod.com')
+    # hod3=hod(name='Dr. Z.V.P Murthy', deptname = 'Chemical Engineering Department' ,contact='5777544450',email='ced@hod.com')
+    #
+    #
+    #
+    # db.session.add(warden1)
+    # db.session.add(warden2)
+    # db.session.add(warden3)
+    # db.session.add(hod1)
+    # db.session.add(hod2)
+    # db.session.add(hod3)
+    #
+    # db.session.commit()
     return r
 
 def process_text_message(msg):
