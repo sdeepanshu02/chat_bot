@@ -18,4 +18,4 @@ class subscribers(db.Model):
     user_fb_id=db.Column(db.String(100))
 
     def __repr__(self):
-        return '<subscribers %r>' % (self.name)
+        return '<subscribers %r>' % (self.roll_no)
