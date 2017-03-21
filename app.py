@@ -110,6 +110,19 @@ def getdata():
                     result = each_hod.contact
                 elif detail_term == "email":
                     result = each_hod.email
+
+    elif intentName == "details_of_warden":
+        detail_term = parameters_dict["details"]
+        hostel_name = parameters_dict["hostel"]
+        list_of_wardens = warden.query.all()
+        for each_warden in list_of_wardens:
+            if each_warden.hostelname == hostel_name:
+                if detail_term == "name":
+                    result = each_warden.name
+                elif detail_term == "contact":
+                    result = each_warden.contact
+                elif detail_term == "email":
+                    result = each_warden.email
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
         "displayText": result,
