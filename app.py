@@ -170,7 +170,7 @@ def seeallwarden():
     return x
 
 @app.route('/seeallhod',methods=['GET'])       #Function to see all entry in hod
-def seeallsubscribers():
+def seeallhod():
     a=hod.query.all()
     log(a)
     log("hello")
