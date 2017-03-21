@@ -75,13 +75,6 @@ def getdata():
             if each_post.post == serch_value:
                 result = each_post.name
 
-    if search_col_name=="contact":
-        list_of_posts=posts.query.all()
-        for each_post in list_of_posts:
-            if each_post.post == serch_value:
-                result=each_post.contact
-
-
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
         "displayText": result,
@@ -131,6 +124,29 @@ def addposts(details):
 @app.route('/del/posts/all',methods=['GET'])    #Function for delete all values in posts
 def delposts():
     posts.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
+
+@app.route('/seeallsubscribers',methods=['GET'])       #Function to see all entry in subscribers
+def seeallsubscribers():
+    a=subscribers.query.all()
+    log(a)
+    log("hello")
+    x=""
+    for p in a:
+        x=x+p.roll_no+" "+p.user_fb_id+"<br>"
+    return x
+
+@app.route('/add/subscribers/',methods=['GET'])      #Function for add entry in subscribers
+def addsubscribers():
+    user = subscribers(roll_no = 'U15CO061', user_fb_id = 'hfsakjhskajhsk')
+    db.session.add(user)
+    db.session.commit()
+    return "sucessfully added"
+
+@app.route('/del/subscribers/all',methods=['GET'])    #Function for delete all values in subscribers
+def delsubscribers():
+    subscribers.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
