@@ -98,14 +98,28 @@ def getdata():
                 elif detail_term == "email":
                     result = each_post.email
 
+    elif intentName == "details_of_hod":
+        detail_term = parameters_dict["details"]
+        dept_name = parameters_dict["department"]
+        list_of_hods = hod.query.all()
+        for each_hod in list_of_hods:
+            if each_hod.deptname == dept_name:
+                if detail_term == "name":
+                    result = each_hod.name
+                elif detail_term == "contact":
+                    result = each_hod.contact
+                elif detail_term == "email":
+                    result = each_hod.email
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
         "displayText": result,
         "source": "agent"
         }
     res = json.dumps(res, indent=4)
+
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
+
     return r
 
 def process_text_message(msg):
@@ -158,25 +172,6 @@ def seeallsubscribers():
     x=""
     for p in a:
         x=x+p.roll_no+" "+p.user_fb_id+"<br>"
-    return x
-
-@app.route('/seeallwarden',methods=['GET'])       #Function to see all entry in warden
-def seeallwarden():
-    a=warden.query.all()
-    log(a)
-    x=""
-    for p in a:
-        x=x+p.name+" "+p.hostelname+" "+p.contact+" "+p.email+"<br>"
-    return x
-
-@app.route('/seeallhod',methods=['GET'])       #Function to see all entry in hod
-def seeallhod():
-    a=hod.query.all()
-    log(a)
-    log("hello")
-    x=""
-    for p in a:
-        x=x+p.name+" "+p.deptname+" "+p.contact+" "+p.email+"<br>"
     return x
 
 @app.route('/add/subscribers/',methods=['GET'])      #Function for add entry in subscribers
