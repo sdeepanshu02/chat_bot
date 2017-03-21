@@ -166,7 +166,7 @@ def seeallwarden():
     log(a)
     x=""
     for p in a:
-        x=x+p.name+" "+p.hostelname++" "+p.contact+" "+p.email+"<br>"
+        x=x+p.name+" "+p.hostelname+" "+p.contact+" "+p.email+"<br>"
     return x
 
 @app.route('/seeallhod',methods=['GET'])       #Function to see all entry in hod
@@ -176,7 +176,7 @@ def seeallhod():
     log("hello")
     x=""
     for p in a:
-        x=x+p.name+" "+p.deptname++" "+p.contact+" "+p.email+"<br>"
+        x=x+p.name+" "+p.deptname+" "+p.contact+" "+p.email+"<br>"
     return x
 
 @app.route('/add/subscribers/',methods=['GET'])      #Function for add entry in subscribers
