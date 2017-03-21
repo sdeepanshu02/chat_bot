@@ -12,7 +12,7 @@ CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_
 db = SQLAlchemy(app)
 app.config.from_pyfile('app.cfg')   #config file
 
-from models import posts
+from models import posts, subscribers
 
 @app.route('/', methods=['GET'])
 def verify():
