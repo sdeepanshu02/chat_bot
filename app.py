@@ -71,7 +71,7 @@ def getdata():
     data = request.get_json()
     print("Request:")
     print(json.dumps(req, indent=4))
-
+    print("************"+data["result"]["metadata"]["intentName"])
     search_term = data["result"]["parameters"].values()[0] #retrive the search term
     serch_value,search_col_name = search_term.split('_')
     result = "I don't know"
