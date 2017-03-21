@@ -180,7 +180,7 @@ def send_message(recipient_id, message_text):
         log(r.status_code)
         log(r.text)
 def add_subscriber(request_string, user_id):
-    a,user_roll_no = search_term.split(' ')
+    a,user_roll_no = request_string.split(' ')
     user = subscribers(roll_no = user_roll_no, user_fb_id = user_id)
     db.session.add(user)
     db.session.commit()
