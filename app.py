@@ -5,7 +5,7 @@ import re
 
 import apiai
 import requests
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -134,6 +134,22 @@ def getdata():
     r.headers['Content-Type'] = 'application/json'
 
     return r
+@app.route('/send_notification_stu_chap')       #Function to send notification of stu chap
+def send_notification_stu_chap():
+    return render_template("indexstu.html")
+
+@app.route('/send_notification_stu_chap',methods=['POST'])       #Function to send notification of stu chap
+def send_notification_stu_chap_post():
+    chp_name = request.form['chp_name']
+    eve_name = request.form['eve_name']
+    eve_dscp = request.form['eve_dscp']
+    eve_poster_url = request.form['eve_poster_url']
+    date = request.form['date']
+    time = request.form['time']
+    venue = request.form['venue']
+    tar_yr = request.form['tar_yr']
+    log(chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
+
 
 def process_text_message(msg):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
