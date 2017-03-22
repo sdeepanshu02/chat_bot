@@ -7,6 +7,7 @@ import apiai
 import requests
 from flask import Flask, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
@@ -148,6 +149,20 @@ def send_notification_stu_chap_post():
     time = request.form['time']
     venue = request.form['venue']
     tar_yr = request.form['tar_yr']
+    years=tar_yr.split('_')
+    for each_year in years:
+        each_year=int(each_year)
+        users=subscribers.query.all()
+        for each_user in users:
+            roll = each_user.roll_no
+            roll[1:3]
+            roll = int(roll)
+            curr = datetime.utcnow()
+            curr_year = curr.year
+            if(each_year == (int(curr_year)%2000)-roll):
+                send_message(each_user.user_fb_id,chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
+
+
     log(chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
     return "Notification Sent Sucessfully !!"
 
