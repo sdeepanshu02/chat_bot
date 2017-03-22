@@ -149,6 +149,7 @@ def send_notification_stu_chap_post():
     venue = request.form['venue']
     tar_yr = request.form['tar_yr']
     log(chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
+    return "Notification Sent Sucessfully !!"
 
 
 def process_text_message(msg):
