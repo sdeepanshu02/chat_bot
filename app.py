@@ -138,7 +138,7 @@ def getdata():
 def send_notification_stu_chap():
     return render_template("indexstu.html")
 
-@app.route('/send_notification_stu_chap',methods=['POST'])       #Function to send notification of stu chap
+@app.route('/send_notification_stu_chap_post',methods=['POST'])       #Function to send notification of stu chap
 def send_notification_stu_chap_post():
     chp_name = request.form['chp_name']
     eve_name = request.form['eve_name']
