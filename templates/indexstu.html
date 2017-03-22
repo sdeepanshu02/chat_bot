@@ -10,7 +10,7 @@
   <hgroup>
   <h1>Student Chapter Notification</h1>
 </hgroup>
-<form>
+<form action="https://jarvis-amoc.herokuapp.com/send_notification_stu_chap_post" method="Post">
   <div class="group">
     <input type="text" name="chp_name"><span class="highlight"></span><span class="bar"></span>
     <label>Chapter Name</label>
@@ -43,7 +43,7 @@
     <input type="text" name="tar_yr" id="tar_yr"><span class="highlight"></span><span class="bar"></span>
     <label>Target Year</label>
   </div>
-  <button type="button" class="button buttonBlue">Submit
+  <button type="submit" class="button buttonBlue">Submit
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
   </button>
 </form>
