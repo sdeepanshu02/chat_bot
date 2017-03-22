@@ -162,7 +162,7 @@ def send_notification_stu_chap_post():
                 send_message(each_user.user_fb_id,chp_name)
                 send_message(each_user.user_fb_id,'Poster URL: '+eve_poster_url)
                 send_message(each_user.user_fb_id,"Hola peeps!!!")
-                send_message(each_user.user_fb_id,'We at '+chp_name+' are excited to conduct'+eve_name+'\n'+eve_dscp+'\n Date:'+date+'\n Time:'+time+'\n Venue:'+ venue )
+                send_message(each_user.user_fb_id,'We at '+chp_name+' are excited to conduct- '+eve_name+'\n'+eve_dscp+'\n Date: '+date+'\n Time: '+time+'\n Venue: '+ venue )
 
 
     log(chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
