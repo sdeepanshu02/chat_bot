@@ -155,8 +155,7 @@ def send_notification_stu_chap_post():
         users=subscribers.query.all()
         for each_user in users:
             roll = each_user.roll_no
-            roll[1:3]
-            roll = int(roll)
+            roll = int(roll[1:3])
             curr = datetime.utcnow()
             curr_year = curr.year
             if(each_year == (int(curr_year)%2000)-roll):
