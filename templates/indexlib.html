@@ -7,33 +7,39 @@
 </head>
 
 <body>
+  <script type="text/javascript">
+
+function doit(field){
+  var e = document.getElementById(field);
+  
+  e.className = 'used';
+}
+
+ </script>
   <hgroup>
   <h1>Library Books info</h1>
 </hgroup>
 <form>
   <div class="group">
-    <input type="text" name="id"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="id" id="id" onblur="doit('id')"><span class="highlight"></span><span class="bar"></span>
     <label>Identity No.</label>
   </div>
   <div class="group">
-    <input type="text" name="name"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="name" id="name" onblur="doit('name')"><span class="highlight"></span><span class="bar"></span>
     <label>Name</label>
   </div>
   <div class="group">
-    <input type="text" name="noc"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="noc" id="noc" onblur="doit('noc')"><span class="highlight"></span><span class="bar"></span>
     <label>No. of Copies</label>
   </div>
   <div class="group">
-    <input type="text" name="loc"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="loc" id="loc" onblur="doit('loc')"><span class="highlight"></span><span class="bar"></span>
     <label>Location</label>
   </div>
   <button type="button" class="button buttonBlue">Submit
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
   </button>
 </form>
-  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-
-    <script src="index.js"></script>
 
 </body>
 </html>
