@@ -139,6 +139,15 @@ def getdata():
 def send_notification_stu_chap():
     return render_template("indexstu.html")
 
+@app.route('/book_entry')       #Function to Make a book entry in library table
+def book_entry():
+    return render_template("indexlib.html")
+
+@app.route('/book_issue')       #Function to issue a book
+def book_issue():
+    return render_template("indexissue.html")
+
+
 @app.route('/send_notification_stu_chap_post',methods=['POST'])       #Function to send notification of stu chap
 def send_notification_stu_chap_post():
     chp_name = request.form['chp_name']
@@ -167,6 +176,14 @@ def send_notification_stu_chap_post():
 
     log(chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
     return "Notification Sent Sucessfully !!"
+
+@app.route('/book_entry_post',methods=['POST'])       #Function to Make a book entry in library table
+def book_entry():
+    return render_template("indexlib.html")
+
+@app.route('/book_issue_post',methods=['POST'])       #Function to issue a book
+def book_issue():
+    return render_template("indexissue.html")
 
 
 def process_text_message(msg):

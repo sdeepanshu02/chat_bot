@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Library Books info</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://jarvis-amoc.herokuapp.com/static/css/style.css">
 </head>
 
 <body>
@@ -11,7 +11,7 @@
 
 function doit(field){
   var e = document.getElementById(field);
-  
+
   e.className = 'used';
 }
 
@@ -19,7 +19,7 @@ function doit(field){
   <hgroup>
   <h1>Library Books info</h1>
 </hgroup>
-<form>
+<form action="https://jarvis-amoc.herokuapp.com/book_entry_post" method="Post">
   <div class="group">
     <input type="text" name="id" id="id" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
     <label>Book ID</label>
