@@ -124,6 +124,14 @@ def getdata():
                     result = each_warden.contact
                 elif detail_term == "email":
                     result = each_warden.email
+
+    elif intentName == "search_books":
+        book_name_to_search = parameters_dict["book_name"]
+        list_of_books = lib_books.query.all()
+        for each_book in list_of_books:
+            if each_book.book_name == book_name_to_search:
+                result = "Yes, "+each_book.book_name+ " is available in Library. There are "+str(each_book.no_of_copies)+" copies currently available."
+
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
         "displayText": result,
@@ -262,7 +270,7 @@ def seelib():
     log("hello")
     x=""
     for p in a:
-        x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+p.price+" "+p.no_of_copies+"<br>"
+        x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+str(p.price)+" "+str(p.no_of_copies)+"<br>"
     return x
 
 
