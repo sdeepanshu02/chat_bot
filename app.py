@@ -179,7 +179,7 @@ def send_notification_stu_chap_post():
                     send_message(each_user.user_fb_id,'Poster URL: '+eve_poster_url)
                     send_message(each_user.user_fb_id,"Hola peeps!!!")
                     send_message(each_user.user_fb_id,'We at '+chp_name+' are excited to conduct- '+eve_name+'\n'+eve_dscp+'\n Date: '+date+'\n Time: '+time+'\n Venue: '+ venue )
-        
+
 
     log(chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
     return "Notification Sent Sucessfully !!"
@@ -197,9 +197,9 @@ def book_entry_post():
 def book_issue_post():
     stu_roll_no = request.form['stu_no']
     b_name = request.form['b_name']
-    issue_date = request.form['i_date']
-    due_date = request.form['d_date']
-    return stu_roll_no+" "+b_name+" "+issue_date+" "+due_date
+    # issue_date = request.form['i_date']
+    # due_date = request.form['d_date']
+    return stu_roll_no+" "+b_name#+" "+issue_date+" "+due_date
 
 
 def process_text_message(msg):
