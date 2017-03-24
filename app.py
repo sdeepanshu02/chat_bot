@@ -167,12 +167,19 @@ def send_notification_stu_chap_post():
             roll = int(roll[1:3])
             curr = datetime.utcnow()
             curr_year = curr.year
-            if(each_year == (int(curr_year)%2000)-roll):
-                send_message(each_user.user_fb_id,chp_name)
-                send_message(each_user.user_fb_id,'Poster URL: '+eve_poster_url)
-                send_message(each_user.user_fb_id,"Hola peeps!!!")
-                send_message(each_user.user_fb_id,'We at '+chp_name+' are excited to conduct- '+eve_name+'\n'+eve_dscp+'\n Date: '+date+'\n Time: '+time+'\n Venue: '+ venue )
-
+            if curr.month<7:
+                if(each_year == (int(curr_year)%2000)-roll):
+                    send_message(each_user.user_fb_id,chp_name)
+                    send_message(each_user.user_fb_id,'Poster URL: '+eve_poster_url)
+                    send_message(each_user.user_fb_id,"Hola peeps!!!")
+                    send_message(each_user.user_fb_id,'We at '+chp_name+' are excited to conduct- '+eve_name+'\n'+eve_dscp+'\n Date: '+date+'\n Time: '+time+'\n Venue: '+ venue )
+            else:
+                if(each_year == (int(curr_year)%2000)-roll+1):
+                    send_message(each_user.user_fb_id,chp_name)
+                    send_message(each_user.user_fb_id,'Poster URL: '+eve_poster_url)
+                    send_message(each_user.user_fb_id,"Hola peeps!!!")
+                    send_message(each_user.user_fb_id,'We at '+chp_name+' are excited to conduct- '+eve_name+'\n'+eve_dscp+'\n Date: '+date+'\n Time: '+time+'\n Venue: '+ venue )
+        
 
     log(chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
     return "Notification Sent Sucessfully !!"
