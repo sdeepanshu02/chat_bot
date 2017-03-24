@@ -9,6 +9,15 @@
   <hgroup>
   <h1>Library Books Issue</h1>
 </hgroup>
+  <script type="text/javascript">
+
+function doit(field){
+  var e = document.getElementById(field);
+
+  e.className = 'used';
+}
+
+ </script>
 <form action="https://jarvis-amoc.herokuapp.com/book_issue_post" method="Post">
   <div class="group">
     <input type="text" name="stu_no" id="stu_no" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
