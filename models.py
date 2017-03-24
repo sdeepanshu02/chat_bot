@@ -50,6 +50,9 @@ class lib_books(db.Model):
     price = db.Column(db.Float)
     no_of_copies = db.Column(db.Integer)
 
+    def __repr__(self):
+        return '<lib_books %r>' %(self.book_name)
+
 class book_issue(db.Model):
     __tablename__ = 'book_issue'
     id = db.Column(db.Integer,primary_key=True)
@@ -58,3 +61,6 @@ class book_issue(db.Model):
     issue_date = db.Column(db.DateTime)
     due_date = db.Column(db.DateTime)
     reminded = db.Column(db.Boolean)
+
+    def __repr__(self):
+        return '<book_issue %r>' %(self.book_id)

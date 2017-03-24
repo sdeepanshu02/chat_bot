@@ -186,19 +186,20 @@ def send_notification_stu_chap_post():
 
 @app.route('/book_entry_post',methods=['POST'])       #Function to Make a book entry in library table
 def book_entry_post():
-    b_id = request.form['id']
-    b_name = request.form['b_name']
-    a_name = request.form['a_name']
-    price = request.form['price']
-    no_of_copies = request.form['noc']
-    return b_id+" "+b_name+" "+a_name+" "+price+" "+no_of_copies
+    b_id = (request.form['id']).upper()
+    b_name = (request.form['b_name']).upper()
+    a_name = (request.form['a_name']).upper()
+    price = float(request.form['price'])
+    no_of_copy = int(request.form['noc'])
+    book = lib_books(book_id = b_id, book_name = b_name, author_name = a_name, price = price, no_of_copies = no_of_copy)
+    db.session.add(book)
+    db.session.commit()
+    return "Sucessfully Added Book"+b_id+" "+b_name+" "+a_name+" "+price+" "+no_of_copies
 
 @app.route('/book_issue_post',methods=['POST'])       #Function to issue a book
 def book_issue_post():
     stu_roll_no = request.form['stu_no']
     b_name = request.form['b_name']
-    # issue_date = request.form['i_date']
-    # due_date = request.form['d_date']
     return stu_roll_no+" "+b_name#+" "+issue_date+" "+due_date
 
 
@@ -253,6 +254,17 @@ def seeallsubscribers():
     for p in a:
         x=x+p.roll_no+" "+p.user_fb_id+"<br>"
     return x
+
+@app.route('/seelib',methods=['GET'])       #Function to see all entry in library
+def seeallsubscribers():
+    a=lib_books.query.all()
+    log(a)
+    log("hello")
+    x=""
+    for p in a:
+        x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+p.price+" "+p.no_of_copies+"<br>"
+    return x
+
 
 @app.route('/add/subscribers/',methods=['GET'])      #Function for add entry in subscribers
 def addsubscribers():
