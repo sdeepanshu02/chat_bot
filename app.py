@@ -275,6 +275,12 @@ def seelib():
         x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+str(p.price)+" "+str(p.no_of_copies)+"<br>"
     return x
 
+@app.route('/dellib',methods=['GET'])       #Function to see all entry in library
+def dellib():
+    lib_books.query.delete()
+    book_issue.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
 
 @app.route('/add/subscribers/',methods=['GET'])      #Function for add entry in subscribers
 def addsubscribers():
