@@ -178,11 +178,11 @@ def send_notification_stu_chap_post():
     return "Notification Sent Sucessfully !!"
 
 @app.route('/book_entry_post',methods=['POST'])       #Function to Make a book entry in library table
-def book_entry():
+def book_entry_post():
     return render_template("indexlib.html")
 
 @app.route('/book_issue_post',methods=['POST'])       #Function to issue a book
-def book_issue():
+def book_issue_post():
     return render_template("indexissue.html")
 
 
