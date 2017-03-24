@@ -1,5 +1,4 @@
 from app import db
-
 class posts(db.Model):
     __tablename__='posts'
     id=db.Column(db.Integer,primary_key=True)
@@ -41,3 +40,21 @@ class hod(db.Model):
 
     def __repr__(self):
         return '<hod %r>' %(self.name)
+
+class lib_books(db.Model):
+    __tablename__ = 'lib_books'
+    id = db.Column(db.Integer,primary_key=True)
+    book_id=db.Column(db.String(30),unique=True)
+    book_name = db.Column(db.String(60))
+    author_name = db.Column(db.String(45))
+    price = db.Column(db.Float)
+    no_of_copies = db.Column(db.Integer)
+
+class book_issue(db.Model):
+    __tablename__ = 'book_issue'
+    id = db.Column(db.Integer,primary_key=True)
+    book_id=db.Column(db.String(30))
+    stu_roll_no = db.Column(db.String(40))
+    issue_date = db.Column(db.DateTime)
+    due_date = db.Column(db.DateTime)
+    reminded = db.Column(db.Boolean)
