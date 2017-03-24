@@ -126,9 +126,11 @@ def getdata():
                     result = each_warden.email
 
     elif intentName == "search_books":
-        book_name_to_search = parameters_dict["book_name"]
+        book_name_to_search = (parameters_dict["book_name"]).upper()
+        log(book_name_to_search)
         list_of_books = lib_books.query.all()
         for each_book in list_of_books:
+            log(each_book.book_name)
             if each_book.book_name == book_name_to_search:
                 result = "Yes, "+each_book.book_name+ " is available in Library. There are "+str(each_book.no_of_copies)+" copies currently available."
 
