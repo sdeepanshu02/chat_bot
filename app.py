@@ -184,11 +184,15 @@ def book_entry_post():
     a_name = request.form['a_name']
     price = request.form['price']
     no_of_copies = request.form['noc']
-    return render_template("indexlib.html")
+    return b_id+" "+b_name+" "+a_name+" "+price+" "+no_of_copies
 
 @app.route('/book_issue_post',methods=['POST'])       #Function to issue a book
 def book_issue_post():
-    return render_template("indexissue.html")
+    stu_roll_no = request.form['stu_no']
+    b_name = request.form['b_name']
+    issue_date = request.form['i_date']
+    due_date = request.form['d_date']
+    return stu_roll_no+" "+b_name+" "+issue_date+" "+due_date
 
 
 def process_text_message(msg):
