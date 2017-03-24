@@ -268,6 +268,7 @@ def seeallsubscribers():
 @app.route('/seelib',methods=['GET'])       #Function to see all entry in library
 def seelib():
     a=lib_books.query.all()
+    b=book_issue.query.all()
     log(a)
     log("hello")
     x=""
@@ -275,7 +276,7 @@ def seelib():
         x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+str(p.price)+" "+str(p.no_of_copies)+"<br>"
     return x
 
-@app.route('/dellib',methods=['GET'])       #Function to see all entry in library
+@app.route('/dellib',methods=['GET'])       #Function to del all entry in library
 def dellib():
     lib_books.query.delete()
     book_issue.query.delete()
