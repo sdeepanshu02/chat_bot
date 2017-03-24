@@ -56,11 +56,11 @@ class lib_books(db.Model):
 class book_issue(db.Model):
     __tablename__ = 'book_issue'
     id = db.Column(db.Integer,primary_key=True)
-    book_id=db.Column(db.String(30))
+    book_name=db.Column(db.String(60))
     stu_roll_no = db.Column(db.String(40))
     issue_date = db.Column(db.DateTime)
     due_date = db.Column(db.DateTime)
     reminded = db.Column(db.Boolean)
 
     def __repr__(self):
-        return '<book_issue %r>' %(self.book_id)
+        return '<book_issue %r>' %(self.book_name)
