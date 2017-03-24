@@ -194,7 +194,7 @@ def book_entry_post():
     book = lib_books(book_id = b_id, book_name = b_name, author_name = a_name, price = price, no_of_copies = no_of_copy)
     db.session.add(book)
     db.session.commit()
-    return "Sucessfully Added Book"+b_id+" "+b_name+" "+a_name+" "+price+" "+no_of_copies
+    return "Sucessfully Added Book"+b_id+" "+b_name+" "+a_name+" "+str(no_of_copies)
 
 @app.route('/book_issue_post',methods=['POST'])       #Function to issue a book
 def book_issue_post():
