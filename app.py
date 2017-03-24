@@ -179,6 +179,11 @@ def send_notification_stu_chap_post():
 
 @app.route('/book_entry_post',methods=['POST'])       #Function to Make a book entry in library table
 def book_entry_post():
+    b_id = request.form['id']
+    b_name = request.form['b_name']
+    a_name = request.form['a_name']
+    price = request.form['price']
+    no_of_copies = request.form['noc']
     return render_template("indexlib.html")
 
 @app.route('/book_issue_post',methods=['POST'])       #Function to issue a book
