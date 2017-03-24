@@ -256,7 +256,7 @@ def seeallsubscribers():
     return x
 
 @app.route('/seelib',methods=['GET'])       #Function to see all entry in library
-def seeallsubscribers():
+def seelib():
     a=lib_books.query.all()
     log(a)
     log("hello")
