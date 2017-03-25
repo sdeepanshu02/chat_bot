@@ -45,8 +45,8 @@ class lib_books(db.Model):
     __tablename__ = 'lib_books'
     id = db.Column(db.Integer,primary_key=True)
     book_id=db.Column(db.String(30),unique=True)
-    book_name = db.Column(db.String(60))
-    author_name = db.Column(db.String(45))
+    book_name = db.Column(db.Text)
+    author_name = db.Column(db.Text)
     price = db.Column(db.Float)
     no_of_copies = db.Column(db.Integer)
 
@@ -56,8 +56,8 @@ class lib_books(db.Model):
 class book_issue(db.Model):
     __tablename__ = 'book_issue'
     id = db.Column(db.Integer,primary_key=True)
-    book_name=db.Column(db.String(60))
-    stu_roll_no = db.Column(db.String(40))
+    book_name=db.Column(db.Text)
+    stu_roll_no = db.Column(db.Text)
     issue_date = db.Column(db.DateTime)
     due_date = db.Column(db.DateTime)
     reminded = db.Column(db.Boolean)
