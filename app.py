@@ -278,8 +278,10 @@ def seelib():
 
 @app.route('/dellib',methods=['GET'])       #Function to del all entry in library
 def dellib():
-    lib_books.query.delete()
-    book_issue.query.delete()
+    books=lib_books.query.all()
+    issues=book_issue.query.all()
+    lib_books.session.delete(books)
+    book_issue.session.delete(issues)
     db.session.commit()
     return "sucessfully deleted"
 
