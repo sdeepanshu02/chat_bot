@@ -128,7 +128,7 @@ def getdata():
     elif intentName == "search_books":
         book_name_to_search = (parameters_dict["book_name"]).upper()
         google_books_api = requests.get('https://www.googleapis.com/books/v1/volumes?q='+book_name_to_search)
-        google_books_json = json.loads(x.content)
+        google_books_json = json.loads(google_books_api.content)
         book_name_to_search = (google_books_json['items'][0]['volumeInfo']['title']).upper()
 
         log(book_name_to_search)
@@ -206,7 +206,7 @@ def book_entry_post():
     price = float(request.form['price'])
     no_of_copy = int(request.form['noc'])
     google_books_api = requests.get('https://www.googleapis.com/books/v1/volumes?q='+b_name+'+inauthor:'+a_name)
-    google_books_json = json.loads(x.content)
+    google_books_json = json.loads(google_books_api.content)
     b_name = (google_books_json['items'][0]['volumeInfo']['title']).upper()
     a_name = (google_books_json['items'][0]['volumeInfo']['authors'][0]).upper()
     book = lib_books(book_id = b_id, book_name = b_name, author_name = a_name, price = price, no_of_copies = no_of_copy)
