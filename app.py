@@ -154,7 +154,7 @@ def book_entry():
     return render_template("indexlib.html")
 
 @app.route('/book_issue')       #Function to issue a book
-def book_issue():
+def book_issue_from_lib():
     return render_template("indexissue.html")
 
 
@@ -207,7 +207,7 @@ def book_entry_post():
     return "Sucessfully Added Book"+b_id+" "+b_name+" "+a_name+" "+str(no_of_copy)
 
 @app.route('/book_issue_post',methods=['POST'])       #Function to issue a book
-def book_issue_post():
+def book_issue_from_lib_post():
     stu_roll_no = request.form['stu_no']
     b_name = request.form['b_name']
     return stu_roll_no+" "+b_name#+" "+issue_date+" "+due_date
