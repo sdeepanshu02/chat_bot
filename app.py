@@ -7,7 +7,7 @@ import apiai
 import requests
 from flask import Flask, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime,timedelta
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
@@ -210,8 +210,8 @@ def book_entry_post():
 def book_issue_from_lib_post():
     stu_roll_no = request.form['stu_no']
     b_name = request.form['b_name']
-    issue_date=datetime.date.today()
-    due_date=datetime.date.today()+datetime.timedelta(days=1)
+    issue_date=datetime.utcnow()
+    due_date=datetime.utcnow()+timedelta(days=1)
 
     return stu_roll_no+" "+b_name+" "+str(issue_date)+" "+str(due_date)
 
