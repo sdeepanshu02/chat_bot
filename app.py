@@ -7,7 +7,7 @@ import apiai
 import requests
 from flask import Flask, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta,date
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
