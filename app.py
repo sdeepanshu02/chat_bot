@@ -278,6 +278,9 @@ def seelib():
     x=""
     for p in a:
         x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+str(p.price)+" "+str(p.no_of_copies)+"<br>"
+    x = x + "<br><br><br>"
+    for p in b:
+        x=x+p.book_name+" "+p.stu_roll_no+" "+str(p.issue_date)+" "+str(p.due_date)+" "+str(p.reminded)+"<br>"
     return x
 
 @app.route('/dellib',methods=['GET'])       #Function to del all entry in library
