@@ -210,7 +210,10 @@ def book_entry_post():
 def book_issue_from_lib_post():
     stu_roll_no = request.form['stu_no']
     b_name = request.form['b_name']
-    return stu_roll_no+" "+b_name#+" "+issue_date+" "+due_date
+    issue_date=datetime.date.today()
+    due_date=datetime.date.today()+datetime.timedelta(days=1)
+
+    return stu_roll_no+" "+b_name+" "+str(issue_date)+" "+str(due_date)
 
 
 def process_text_message(msg):
