@@ -208,12 +208,13 @@ def book_entry_post():
 
 @app.route('/book_issue_post',methods=['POST'])       #Function to issue a book
 def book_issue_from_lib_post():
-    stu_roll_no = request.form['stu_no']
-    b_name = request.form['b_name']
+    stu_roll_no = str(request.form['stu_no']).upper()
+    b_name = str(request.form['b_name']).upper()
     issue_date=datetime.utcnow()
     due_date=datetime.utcnow()+timedelta(days=1)
-
+    issued_book=book_issue(book_name=b_name,stu_roll=stu_roll_no,issue_date=issue_date,due_date=due_date,reminded=False)
     return stu_roll_no+" "+b_name+" "+str(issue_date)+" "+str(due_date)
+
 
 
 def process_text_message(msg):
