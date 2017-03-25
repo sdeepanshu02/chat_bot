@@ -212,7 +212,7 @@ def book_issue_from_lib_post():
     b_name = str(request.form['b_name']).upper()
     issue_date=date.today()
     due_date=date.today()+timedelta(days=1)
-    issued_book=book_issue(book_name=b_name,stu_roll=stu_roll_no,issue_date=issue_date,due_date=due_date,reminded=False)
+    issued_book=book_issue(book_name=b_name,stu_roll_no=stu_roll_no,issue_date=issue_date,due_date=due_date,reminded=False)
     return stu_roll_no+" "+b_name+" "+str(issue_date)+" "+str(due_date)
 
 
