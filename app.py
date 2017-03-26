@@ -148,6 +148,15 @@ def getdata():
             result = "Here is what I found out.\n\n" + str(wikipedia.summary(e.options[0], sentences=5))
         log(result)
 
+    elif intentName == "previous_year_paper":
+        dept = (parameters_dict["department"]).upper()
+        subject = (parameters_dict["subject"]).upper()
+        result = ""
+        list_of_papers = prev_papers.query.all()
+        for each_paper in list_of_papers:
+            if (each_paper.subject == subject && each_paper.dept == dept):
+                result = result + each_paper.year + " URL: " + each_paper.url + "\n\n"
+
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
         "displayText": result,
@@ -323,6 +332,22 @@ def seelib():
 def dellib():
     lib_books.query.delete()
     book_issue.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
+
+app.route('/seeprevpapers',methods=['GET'])       #Function to see all entry in prev_papers
+def seeprevpapers():
+    a=prev_papers.query.all()
+    log(a)
+    log("hello")
+    x=""
+    for p in a:
+        x=x+p.dept_name+" "+p.year+" "+p.semester+" "+p.subject+" "+p.exam_type+" "+p.url+"<br>"
+    return x
+
+@app.route('/delprevpapers',methods=['GET'])       #Function to del all entry in prev_papers
+def delprevpapers():
+    prev_papers.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
