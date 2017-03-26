@@ -142,7 +142,7 @@ def getdata():
 
     elif intentName == "wiki":
         wiki_search_term = parameters_dict["wiki_term"]
-        result = "Here is what I found out.\n\n" + str(wikipedia.summary(search_term, sentences=5))
+        result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=5))
         log(result)
 
     res = {                                                #Generate the result to send back to API.AI
