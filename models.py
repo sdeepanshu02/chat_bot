@@ -76,4 +76,4 @@ class prev_papers(db.Model):
     url=db.Column(db.String(100))
 
     def __repr__(self):
-        return '<posts %r>' % (self.subject)
+        return '<prev_papers %r>' % (self.subject)
