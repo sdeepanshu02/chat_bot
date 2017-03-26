@@ -247,7 +247,10 @@ def prev_papers_entry_post():
     sem = request.form['sem']
     subject = (request.form['sub']).upper()
     exam_type = (request.form['type']).upper()
-    return dept + " " + year + " " + sem + " " + subject + " " + exam_type
+    paper = prev_papers(dept_name = dept, year = year, semester = sem, subject = subject, exam_type = exam_type)
+    db.session.add(paper)
+    db.session.commit()
+    return "sucessfully added " + dept + " " + year + " " + sem + " " + subject + " " + exam_type
 
 def process_text_message(msg):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)

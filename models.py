@@ -64,3 +64,15 @@ class book_issue(db.Model):
 
     def __repr__(self):
         return '<book_issue %r>' %(self.book_name)
+
+class prev_papers(db.Model):
+    __tablename__='prev_papers'
+    id=db.Column(db.Integer,primary_key=True)
+    dept_name=db.Column(db.String(100))
+    year=db.Column(db.String(5))
+    semester=db.Column(db.String(2))
+    subject=db.Column(db.String(40))
+    exam_type=db.Column(db.String(20))
+
+    def __repr__(self):
+        return '<posts %r>' % (self.subject)
