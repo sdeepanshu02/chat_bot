@@ -9,13 +9,14 @@ from flask import Flask, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime,timedelta,date
 
-from models import posts, subscribers,warden,hod,lib_books,book_issue
 from clock import sched
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
 db = SQLAlchemy(app)
 app.config.from_pyfile('app.cfg')   #config file
+
+from models import posts, subscribers,warden,hod,lib_books,book_issue
 
 @app.route('/', methods=['GET'])
 def verify():
