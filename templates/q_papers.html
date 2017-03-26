@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta name="viewport" content="width=device-width" />
+  <meta charset="UTF-8">
+  <title>Question Papers</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<style media="screen">
+@media only screen and (max-device-width : 400px) and (-webkit-min-device-pixel-ratio: 2){
+form{
+  width: 100%;
+}
+}
+</style>
+
+<body>
+  <script type="text/javascript">
+
+function doit(field){
+  var e = document.getElementById(field);
+
+  e.className = 'used';
+}
+
+ </script>
+  <hgroup>
+  <h1>Previous Exam Question Papers</h1>
+</hgroup>
+<form action="">
+  <div class="group">
+    <input type="text" id="dept" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <label>Department</label>
+  </div>
+  <div class="group">
+    <input type="text" id="year" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <label>Year</label>
+  </div>
+  <div class="group">
+    <input type="text" id="sem" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <label>Semester</label>
+  </div>
+  <div class="group">
+    <input type="text" id="sub" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <label>Subject</label>
+  </div>
+  <div class="group">
+    <input type="text" id="type" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <label>Exam(Mid-Sem/End-Sem)</label>
+  </div>
+
+  <button type="submit" class="button buttonBlue">Submit
+    <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
+  </button>
+</form>
+
+</body>
+</html>
