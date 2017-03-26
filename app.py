@@ -240,7 +240,7 @@ def book_issue_from_lib_post():
     db.session.commit()
     return stu_roll_no+" "+b_name+" "+str(issue_date)+" "+str(due_date)
 
-@app.route('/prev_papers_entry_post')       #Function to enter previous year paper details
+@app.route('/prev_papers_entry_post',methods=['POST'])       #Function to enter previous year paper details
 def prev_papers_entry_post():
     dept = (request.form['a_name']).upper()
     year = request.form['a_name']
