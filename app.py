@@ -9,12 +9,13 @@ from flask import Flask, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime,timedelta,date
 
+from models import posts, subscribers,warden,hod,lib_books,book_issue
+from clock import sched
+
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
 db = SQLAlchemy(app)
 app.config.from_pyfile('app.cfg')   #config file
-
-from models import posts, subscribers,warden,hod,lib_books,book_issue
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -46,6 +47,9 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
+
+                    sched.start()
+
                     regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
                     pattern = re.compile(regex)
                     string = message_text.upper()
