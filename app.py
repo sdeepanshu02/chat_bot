@@ -145,8 +145,7 @@ def getdata():
         try:
             result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=5))
         except wikipedia.exceptions.DisambiguationError as e:
-            result = "Can you please be more specific ?"
-
+            result = "Here is what I found out.\n\n" + str(wikipedia.summary(e.options[0], sentences=5))
         log(result)
 
     res = {                                                #Generate the result to send back to API.AI
