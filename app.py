@@ -154,7 +154,7 @@ def getdata():
         result = ""
         list_of_papers = prev_papers.query.all()
         for each_paper in list_of_papers:
-            if (each_paper.subject == subject AND each_paper.dept == dept):
+            if (each_paper.subject == subject and each_paper.dept == dept):
                 result = result + each_paper.year + " URL: " + each_paper.url + "\n\n"
 
     res = {                                                #Generate the result to send back to API.AI
