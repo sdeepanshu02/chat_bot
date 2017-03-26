@@ -242,11 +242,11 @@ def book_issue_from_lib_post():
 
 @app.route('/prev_papers_entry_post',methods=['POST'])       #Function to enter previous year paper details
 def prev_papers_entry_post():
-    dept = (request.form['a_name']).upper()
-    year = request.form['a_name']
-    sem = request.form['a_name']
-    subject = (request.form['a_name']).upper()
-    exam_type = (request.form['a_name']).upper()
+    dept = (request.form['dept']).upper()
+    year = request.form['year']
+    sem = request.form['sem']
+    subject = (request.form['sub']).upper()
+    exam_type = (request.form['type']).upper()
     return dept + " " + year + " " + sem + " " + subject + " " + exam_type
 
 def process_text_message(msg):
