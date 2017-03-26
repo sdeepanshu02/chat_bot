@@ -8,6 +8,7 @@ import requests
 from flask import Flask, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime,timedelta,date
+import wikipedia
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
@@ -138,6 +139,11 @@ def getdata():
             log(each_book.book_name)
             if each_book.book_name == book_name_to_search:
                 result = "Yes, "+each_book.book_name+ " is available in Library. There are "+str(each_book.no_of_copies)+" copies currently available."
+
+    elif intentName == "wiki":
+        wiki_search_term = parameters_dict["wiki_term"]
+        result = "Here is what I found out.\n\n" + str(wikipedia.summary(search_term, sentences=5))
+        log(result)
 
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
