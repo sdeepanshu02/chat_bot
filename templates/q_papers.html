@@ -33,11 +33,11 @@ function doit(field){
     <label>Department</label>
   </div>
   <div class="group">
-    <input type="text" id="year" name="year" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <input type="number" id="year" name="year" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
     <label>Year</label>
   </div>
   <div class="group">
-    <input type="text" id="sem" name="sem" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <input type="number" id="sem" name="sem" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
     <label>Semester</label>
   </div>
   <div class="group">
@@ -48,7 +48,10 @@ function doit(field){
     <input type="text" id="type" name="type" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
     <label>Exam(Mid-Sem/End-Sem)</label>
   </div>
-
+  <div class="group">
+    <input type="text" id="url" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <label>Question Paper URL</label>
+  </div>
   <button type="submit" class="button buttonBlue">Submit
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
   </button>
