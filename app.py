@@ -335,7 +335,7 @@ def dellib():
     db.session.commit()
     return "sucessfully deleted"
 
-app.route('/seeprevpapers',methods=['GET'])       #Function to see all entry in prev_papers
+@app.route('/seeprevpapers',methods=['GET'])       #Function to see all entry in prev_papers
 def seeprevpapers():
     a=prev_papers.query.all()
     log(a)
