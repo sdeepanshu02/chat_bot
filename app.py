@@ -142,7 +142,11 @@ def getdata():
 
     elif intentName == "wiki":
         wiki_search_term = parameters_dict["wiki_term"]
-        result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=5))
+        try:
+            result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=5))
+        except wikipedia.exceptions.DisambiguationError as e:
+            result = "Can you please be more specific ?"
+
         log(result)
 
     res = {                                                #Generate the result to send back to API.AI
