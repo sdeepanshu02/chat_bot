@@ -73,6 +73,7 @@ class prev_papers(db.Model):
     semester=db.Column(db.String(2))
     subject=db.Column(db.String(40))
     exam_type=db.Column(db.String(20))
+    url=db.Column(db.String(100))
 
     def __repr__(self):
         return '<posts %r>' % (self.subject)
