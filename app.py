@@ -160,7 +160,7 @@ def getdata():
 
     elif intentName == "map_search":
         maps_query = parameters_dict["map_query_term"]
-        query_result = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+maps_query+'&radius=8000&key=AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc')
+        query_result = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+maps_query+'&location=21.167171%2C72.785145&radius=7000&key=AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc')
         query_result_json = json.loads(query_result.content)
         print(query_result_json)
         address=query_result_json['results'][0]['formatted_address']
