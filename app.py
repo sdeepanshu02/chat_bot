@@ -9,6 +9,7 @@ from flask import Flask, request, make_response, render_template
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime,timedelta,date
 import wikipedia
+from operator import itemgetter
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
@@ -170,11 +171,11 @@ def getdata():
             place_rating = place['rating']
             det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
             list_of_places.append(det_of_place)
-        sorted(list_of_places,key=lambda places:(places['rating'],places['name_of_place'],places['address']))
+        sorted(list_of_places,key=itemgetter('rating'))
         result=""
         r=""
         for place in list_of_places[0:4]:
-            r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n\n"+"---------------"
+            r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n\n"+"---------------\n"
             result=result+r
 
     res = {                                                #Generate the result to send back to API.AI
