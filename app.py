@@ -162,7 +162,8 @@ def getdata():
         maps_query = parameters_dict["map_query_term"]
         query_result = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+maps_query+'&radius=8000&key=AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc')
         query_result_json = json.loads(query_result.content)
-        address=query_result['results'][0]['formatted_address']
+        print(query_result_json)
+        address=query_result_json['results'][0]['formatted_address']
         result=address
 
     res = {                                                #Generate the result to send back to API.AI
