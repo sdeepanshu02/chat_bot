@@ -174,7 +174,7 @@ def getdata():
         result=""
         r=""
         for place in list_of_places[0:4]:
-            r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"
+            r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n\n"+"---------------"
             result=result+r
 
     res = {                                                #Generate the result to send back to API.AI
