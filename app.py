@@ -170,11 +170,11 @@ def getdata():
             place_rating = place['rating']
             det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
             list_of_places.append(det_of_place)
-        sorted(list_of_places,key=lambda places:(places['place_rating'],places['name_of_place'],places['address']))
+        sorted(list_of_places,key=lambda places:(places['rating'],places['name_of_place'],places['address']))
         result=""
         r=""
         for place in list_of_places[0:4]:
-            r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+place['place_rating']+"\n"
+            r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+place['rating']+"\n"
             result=result+r
 
     res = {                                                #Generate the result to send back to API.AI
