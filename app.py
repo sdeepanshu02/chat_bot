@@ -162,9 +162,20 @@ def getdata():
         maps_query = parameters_dict["map_query_term"]
         query_result = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+maps_query+'&location=21.167171%2C72.785145&radius=7000&key=AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc')
         query_result_json = json.loads(query_result.content)
+        list_of_places=[]
         print(query_result_json)
-        address=query_result_json['results'][0]['formatted_address']
-        result=address
+        for place in query_result_json['results']:
+            address = place['formatted_address']
+            name_of_place = place['name']
+            place_rating = place['rating']
+            det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
+            list_of_places,append(det_of_place)
+        sorted(list_of_places,key=lambda places:(places['place_rating'],places['name_of_place'],places['address']))
+        result=""
+        r=""
+        for place in list_of_places[0:4]:
+            r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+place['place_rating']
+            result=result+r
 
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
