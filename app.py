@@ -12,6 +12,7 @@ import wikipedia
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
+GOOGLE_MAPS_API_KEY='AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc'
 db = SQLAlchemy(app)
 app.config.from_pyfile('app.cfg')   #config file
 
@@ -157,6 +158,12 @@ def getdata():
             if (each_paper.subject == subject and each_paper.dept_name == dept):
                 result = result + each_paper.year + " URL: " + each_paper.url + "\n\n"
 
+    elif intentName == "map_search":
+        maps_query = parameters_dict["map_query_term"]
+        query_result = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+maps_query+'&radius=8000&key=AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc')
+        address=query_result['results'][0]['formatted_address']
+        result=address
+
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
         "displayText": result,
@@ -168,6 +175,7 @@ def getdata():
     r.headers['Content-Type'] = 'application/json'
 
     return r
+
 @app.route('/send_notification_stu_chap')       #Function to send notification of stu chap
 def send_notification_stu_chap():
     return render_template("indexstu.html")
