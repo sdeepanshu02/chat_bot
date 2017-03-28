@@ -172,7 +172,7 @@ def getdata():
             det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
             list_of_places.append(det_of_place)
         #sorted(list_of_places,key=lambda places:places['rating'],reverse=True)
-        list_of_places.sort(key=itemgetter('rating'),reverse=True)
+        list_of_places.sort(key=itemgetter('rating'))
         result=""
         r=""
         for place in list_of_places[0:4]:
