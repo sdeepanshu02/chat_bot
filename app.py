@@ -13,7 +13,7 @@ from operator import itemgetter,attrgetter
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
-GOOGLE_MAPS_API_KEY='AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc'
+
 db = SQLAlchemy(app)
 app.config.from_pyfile('app.cfg')   #config file
 
@@ -171,7 +171,7 @@ def getdata():
             place_rating = place['rating']
             det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
             list_of_places.append(det_of_place)
-        sorted(list_of_places,key=attrgetter('rating'),reverse=True)
+        sorted(list_of_places,key=lambda places:places['rating'],reverse=True)
         result=""
         r=""
         for place in list_of_places[0:4]:
