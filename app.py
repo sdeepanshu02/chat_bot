@@ -176,7 +176,7 @@ def getdata():
         print(list_of_places)
         result=""
         r=""
-        for place in list_of_places[0:5]:
+        for place in list_of_places[0:3]:
             r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
             result=result+r
 
