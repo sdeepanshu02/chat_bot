@@ -389,6 +389,12 @@ def delsubscribers():
     db.session.commit()
     return "sucessfully deleted"
 
+@app.route('/cron_test',methods=['GET'])    #Function for testing cron scheduling
+def cron_test():
+    curr_time = datetime.utcnow()
+    send_message("1690740887619815","Hola It's "+str(curr_time)+" now")
+    return "sucessful"
+
 def send_message(recipient_id, message_text):
 
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
