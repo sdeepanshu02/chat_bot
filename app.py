@@ -2,6 +2,8 @@ import os
 import sys
 import json
 import re
+import string
+import random
 
 import apiai
 import requests
@@ -37,6 +39,7 @@ def webhook():
     # endpoint for processing incoming messaging events
 
     data = request.get_json()
+    print("##############FROM webhook()################")
     log(data)  # you may not want to log every incoming message in production, but it's good for testing
 
     if data["object"] == "page":
@@ -49,6 +52,10 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
+                    sessionID = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
+                    s = sessions(senderID = sender_id, sessionsID = sessionID)
+                    db.session.add(s)
+                    db.session.commit()
 
                     regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
                     pattern = re.compile(regex)
@@ -57,7 +64,9 @@ def webhook():
                         add_subscriber(string,sender_id)
                         send_message(sender_id, "You have been sucessfully subscribed !!")
                     else:
-                        send_message(sender_id, process_text_message(message_text))
+                        send_message(sender_id, process_text_message(message_text,sessionID))
+                        db.session.delete(s)
+                        db.session.commit()
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -74,13 +83,15 @@ def webhook():
 def getdata():
     req = request.get_json(silent=True, force=True)
     data = request.get_json()
-    print("Request:")
+    print("##############Request(FROM getdata())################")
     print(json.dumps(req, indent=4))
 
     intentName = data["result"]["metadata"]["intentName"]
-    print("************"+intentName)
 
     parameters_dict = data["result"]["parameters"] #retrive the parameters_dict
+    sess_ID = data["sessionId"]
+
+    print("************"+intentName+"***********"+sess_ID)
     result = "I don't know"
 
     if intentName == "posts":                       # If Query is for post search in posts table
@@ -145,10 +156,9 @@ def getdata():
     elif intentName == "wiki":
         wiki_search_term = parameters_dict["wiki_term"]
         try:
-            result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=5))
+            result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=3))
         except wikipedia.exceptions.DisambiguationError as e:
-            result = "Here is what I found out.\n\n" + str(wikipedia.summary(e.options[0], sentences=5))
-        log(result)
+            result = "Here is what I found out.\n\n" + str(wikipedia.summary(e.options[0], sentences=3))
 
     elif intentName == "previous_year_paper":
         dept = (parameters_dict["department"]).upper()
@@ -173,13 +183,14 @@ def getdata():
             list_of_places.append(det_of_place)
         #sorted(list_of_places,key=lambda places:places['rating'],reverse=True)
         list_of_places.sort(key=itemgetter('rating'),reverse=True)
+        print("##############FROM getdata() LISTING PLACES################")
         print(list_of_places)
         result=""
         r=""
         for place in list_of_places[0:3]:
             r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
             result=result+r
-
+    print("#######FROM getdata() RESULT which is sent to API.AI webhook call######")
     print(result)
     res = {                                                #Generate the result to send back to API.AI
         "speech": result,
@@ -287,15 +298,16 @@ def prev_papers_entry_post():
     db.session.commit()
     return "sucessfully added " + dept + " " + year + " " + sem + " " + subject + " " + exam_type
 
-def process_text_message(msg):
+def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
     request = ai.text_request()    #make call to api.ai api
     request.lang = 'en'  # optional, default value equal 'en'
-    request.session_id = "Ajf54Trh" #generate random session_id later
+    request.session_id = s_id
     request.query = msg
 
     response = json.loads(request.getresponse().read().decode('utf-8'))
-    log(response)
+    print("##############FROM process_text_message() Printing response from API.AI################")
+    print(response)
     responseStatus = response['status']['code']
     if (responseStatus == 200):
         # Sending the textual response of the bot.
@@ -397,6 +409,7 @@ def cron_test():
 
 def send_message(recipient_id, message_text):
 
+    print("##############FROM send_message()################")
     log("sending message to {recipient}: {text}".format(recipient=recipient_id, text=message_text))
 
     params = {
