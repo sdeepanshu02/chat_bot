@@ -52,7 +52,9 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    sessionID = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(7))
+                    upper_case_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    digits = "0123456789"
+                    sessionID = ''.join(random.SystemRandom().choice(upper_case_letters + digits) for _ in range(7))
                     s = sessions(senderID = sender_id, sessionsID = sessionID)
                     db.session.add(s)
                     db.session.commit()
