@@ -185,13 +185,16 @@ def getdata():
             list_of_places.append(det_of_place)
         #sorted(list_of_places,key=lambda places:places['rating'],reverse=True)
         list_of_places.sort(key=itemgetter('rating'),reverse=True)
-        print("##############FROM getdata() LISTING PLACES################")
-        print(list_of_places)
         result=""
         r=""
-        for place in list_of_places[0:3]:
+        send_id=sessions.query.filter(sessionsID=sess_ID)['senderID']
+        print(send_id)
+        for place in list_of_places[0:6]:
             r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
-            result=result+r
+            send_message(send_id,r)
+        place=list_of_places[6]
+        result="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
+
     print("#######FROM getdata() RESULT which is sent to API.AI webhook call######")
     print(result)
     res = {                                                #Generate the result to send back to API.AI
@@ -308,8 +311,8 @@ def process_text_message(msg,s_id):
     request.query = msg
 
     response = json.loads(request.getresponse().read().decode('utf-8'))
-    print("##############FROM process_text_message() Printing response from API.AI################")
-    print(response)
+    #print("##############FROM process_text_message() Printing response from API.AI################")
+    #print(response)
     responseStatus = response['status']['code']
     if (responseStatus == 200):
         # Sending the textual response of the bot.
