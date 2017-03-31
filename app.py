@@ -67,8 +67,8 @@ def webhook():
                         send_message(sender_id, "You have been sucessfully subscribed !!")
                     else:
                         send_message(sender_id, process_text_message(message_text,sessionID))
-                        db.session.delete(s)
-                        db.session.commit()
+                        #db.session.delete(s)
+                        #db.session.commit()
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -412,6 +412,15 @@ def cron_test():
     curr_time = datetime.utcnow()
     send_message("1690740887619815","Hola It's "+str(curr_time)+" now")
     return "sucessful"
+
+@app.route('/seeallsessions',methods=['GET'])    #Function for testing cron scheduling
+def seeallsessions():
+    a=sessions.query.all()
+    log(a)
+    x=""
+    for p in a:
+        x=x+p.senderID+" "+p.sessionsID+"<br>"
+    return x
 
 def send_message(recipient_id, message_text):
 
