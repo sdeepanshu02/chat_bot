@@ -67,8 +67,8 @@ def webhook():
                         send_message(sender_id, "You have been sucessfully subscribed !!")
                     else:
                         send_message(sender_id, process_text_message(message_text,sessionID))
-                        #db.session.delete(s)
-                        #db.session.commit()
+                        db.session.delete(s)
+                        db.session.commit()
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
@@ -187,7 +187,7 @@ def getdata():
         list_of_places.sort(key=itemgetter('rating'),reverse=True)
         result=""
         r=""
-        send_id=db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()
+        send_id=db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0]
         print(str(send_id))
         print(str(type(send_id)))
         for place in list_of_places[0:3]:
