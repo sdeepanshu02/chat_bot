@@ -77,3 +77,12 @@ class prev_papers(db.Model):
 
     def __repr__(self):
         return '<prev_papers %r>' % (self.subject)
+
+class sessions(db.Model):
+    __tablename__='sessions'
+    id=db.Column(db.Integer,primary_key=True)
+    senderID=db.Column(db.String(50))
+    sessionsID=db.Column(db.String(10))
+
+    def __repr__(self):
+        return '<sessions %r>' % (self.senderID)
