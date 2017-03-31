@@ -187,7 +187,7 @@ def getdata():
         list_of_places.sort(key=itemgetter('rating'),reverse=True)
         result=""
         r=""
-        send_id=db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0]['senderID']
+        send_id=db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID
         print(str(send_id))
         print(str(type(send_id)))
         for place in list_of_places[0:3]:
