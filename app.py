@@ -187,13 +187,14 @@ def getdata():
         list_of_places.sort(key=itemgetter('rating'),reverse=True)
         result=""
         r=""
-        send_id=db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID
-        print(str(send_id))
-        print(str(type(send_id)))
-        for place in list_of_places[0:3]:
+        send_id=str(db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID)
+        #print(str(send_id))
+        #print(str(type(send_id)))
+        send_message(send_id,"Here is what I found:")
+        for place in list_of_places[0:6]:
             r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
-            #send_message(send_id,r)
-        place=list_of_places[0]
+            send_message(send_id,r)
+        place=list_of_places[6]
         result="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
 
     print("#######FROM getdata() RESULT which is sent to API.AI webhook call######")
