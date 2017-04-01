@@ -207,7 +207,7 @@ def getdata():
         reminder = reminders(senderID = send_id, reminder_text = remind_text, reminder_time = remind_date+" "+remind_time, reminded = False)
         db.session.add(reminder)
         db.session.commit()
-        result = "Reminder set successfully"
+        result = "Your reminder set successfully"
 
     print("#######FROM getdata() RESULT which is sent to API.AI webhook call######")
     print(result)
@@ -433,6 +433,13 @@ def delsubscribers():
     subscribers.query.delete()
     db.session.commit()
     return "sucessfully deleted"
+
+@app.route('/del/reminders/all',methods=['GET'])    #Function for delete all values in subscribers
+def delreminders():
+    reminders.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
+
 
 @app.route('/cron_test',methods=['GET'])    #Function for testing cron scheduling
 def cron_test():
