@@ -54,23 +54,24 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    upper_case_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                    digits = "0123456789"
-                    sessionID = ''.join(random.SystemRandom().choice(upper_case_letters + digits) for _ in range(7))
-                    s = sessions(senderID = sender_id, sessionsID = sessionID)
-                    db.session.add(s)
-                    db.session.commit()
-
-                    regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
-                    pattern = re.compile(regex)
-                    string = message_text.upper()
-                    if pattern.match(string):
-                        add_subscriber(string,sender_id)
-                        send_message(sender_id, "You have been sucessfully subscribed !!")
-                    else:
-                        send_message(sender_id, process_text_message(message_text,sessionID))
-                        db.session.delete(s)
+                    if(sender_id != '1639100099730911'):
+                        upper_case_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        digits = "0123456789"
+                        sessionID = ''.join(random.SystemRandom().choice(upper_case_letters + digits) for _ in range(7))
+                        s = sessions(senderID = sender_id, sessionsID = sessionID)
+                        db.session.add(s)
                         db.session.commit()
+
+                        regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
+                        pattern = re.compile(regex)
+                        string = message_text.upper()
+                        if pattern.match(string):
+                            add_subscriber(string,sender_id)
+                            send_message(sender_id, "You have been sucessfully subscribed !!")
+                        else:
+                            send_message(sender_id, process_text_message(message_text,sessionID))
+                            db.session.delete(s)
+                            db.session.commit()
 
                 if messaging_event.get("delivery"):  # delivery confirmation
                     pass
