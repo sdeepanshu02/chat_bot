@@ -433,6 +433,15 @@ def seeallsessions():
         x=x+p.senderID+" "+p.sessionsID+"<br>"
     return x
 
+@app.route('/seeallreminders',methods=['GET'])    #Function to see all reminders
+def seeallreminders():
+    a=reminders.query.all()
+    log(a)
+    x=""
+    for p in a:
+        x=x+p.senderID+" "+p.reminder_text+" "+p.reminder_time+" "+str(p.reminded)+"<br>"
+    return x
+
 def send_message(recipient_id, message_text):
 
     print("##############FROM send_message()################")
