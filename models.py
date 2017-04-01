@@ -86,3 +86,14 @@ class sessions(db.Model):
 
     def __repr__(self):
         return '<sessions %r>' % (self.senderID)
+
+class reminders(db.Model):
+    __tablename__='reminders'
+    id=db.Column(db.Integer,primary_key=True)
+    senderID=db.Column(db.String(50))
+    reminder_text=db.Column(db.String(100))
+    reminder_time = db.Column(db.DateTime)
+    reminded = db.Column(db.Boolean)
+
+    def __repr__(self):
+        return '<reminders %r>' % (self.senderID)
