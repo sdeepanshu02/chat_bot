@@ -12,6 +12,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime,timedelta,date
 import wikipedia
 from operator import itemgetter,attrgetter
+from time import strftime
+import pytz
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
@@ -236,6 +238,20 @@ def book_issue_from_lib():
 @app.route('/prev_papers_entry')       #Function to enter previous year paper details
 def prev_papers_entry():
     return render_template("q_papers.html")
+
+@app.route('/check_reminder',methods=['GET'])
+def check_reminder():
+    list_of_reminders = reminders.query.all()
+    ist = datetime.now(pytz.timezone('Asia/Kolkata'))
+    curr_time = datetime.strptime(ist.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')
+    for each_reminder in list_of_reminders:
+        reminder_time = datetime.strptime(each_reminder.reminder_time,'%Y-%m-%d %H:%M:%S')
+        if ((reminder_time - curr_time).total_seconds()<7200):
+            msg="Your event "+each_reminder.reminder_text+" is about to begin shortly"
+            send_message(each_reminder.senderID,msg)
+            db.session.delete(each_reminder)
+    db.session.commit()
+    return "Success"
 
 
 @app.route('/send_notification_stu_chap_post',methods=['POST'])       #Function to send notification of stu chap
