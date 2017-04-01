@@ -250,7 +250,7 @@ def check_reminder():
             msg="Your event "+each_reminder.reminder_text+" is about to begin shortly"
             send_message(each_reminder.senderID,msg)
             db.session.delete(each_reminder)
-    db.session.commit()
+            db.session.commit()
     return "Success"
 
 
