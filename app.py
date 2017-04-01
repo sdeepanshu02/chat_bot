@@ -247,7 +247,7 @@ def check_reminder():
     curr_time = datetime.strptime(ist.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')
     for each_reminder in list_of_reminders:
         reminder_time = datetime.strptime(each_reminder.reminder_time,'%Y-%m-%d %H:%M:%S')
-        if ((reminder_time - curr_time).total_seconds()<7200):
+        if ((reminder_time - curr_time).total_seconds()<=7200):
             msg="Your event "+each_reminder.reminder_text+" is about to begin shortly"
             send_message(each_reminder.senderID,msg)
             db.session.delete(each_reminder)
