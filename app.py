@@ -202,7 +202,7 @@ def getdata():
         remind_date = parameters_dict["date"]
         send_id=str(db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID)
 
-        reminder = reminders(senderID = send_id, reminder_text = remind_text, reminder_time = remind_date+" "remind_time, reminded = False)
+        reminder = reminders(senderID = send_id, reminder_text = remind_text, reminder_time = remind_date+" "+remind_time, reminded = False)
         db.session.add(reminder)
         db.session.commit()
         result = "Reminder set successfully"
