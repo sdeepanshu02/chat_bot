@@ -92,7 +92,7 @@ class reminders(db.Model):
     id=db.Column(db.Integer,primary_key=True)
     senderID=db.Column(db.String(50))
     reminder_text=db.Column(db.String(100))
-    reminder_time = db.Column(db.DateTime)
+    reminder_time = db.Column(db.String(50))
     reminded = db.Column(db.Boolean)
 
     def __repr__(self):

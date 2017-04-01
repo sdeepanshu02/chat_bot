@@ -183,19 +183,29 @@ def getdata():
             place_rating = place['rating']
             det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
             list_of_places.append(det_of_place)
-        #sorted(list_of_places,key=lambda places:places['rating'],reverse=True)
+
         list_of_places.sort(key=itemgetter('rating'),reverse=True)
         result=""
         r=""
         send_id=str(db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID)
-        #print(str(send_id))
-        #print(str(type(send_id)))
+
         send_message(send_id,"Here is what I found:")
         for place in list_of_places[0:6]:
             r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
             send_message(send_id,r)
         place=list_of_places[6]
         result="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
+
+    elif intentName == "reminder_task":
+        remind_text = parameters_dict["remind_text"]
+        remind_time = parameters_dict["time"]
+        remind_date = parameters_dict["date"]
+        send_id=str(db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID)
+
+        reminder = reminders(senderID = send_id, reminder_text = remind_text, reminder_time = remind_date+" "remind_time, reminded = False)
+        db.session.add(reminder)
+        db.session.commit()
+        result = "Reminder set successfully"
 
     print("#######FROM getdata() RESULT which is sent to API.AI webhook call######")
     print(result)
