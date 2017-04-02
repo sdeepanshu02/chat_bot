@@ -373,17 +373,23 @@ def exam_time_table_post():
 
     curr = datetime.utcnow()
     curr_year = curr.year%2000
-
+    print(str(curr))
+    print(str(curr_year))
     users = subscribers.query.all()
     for each_user in users:
+        print("New user")
         roll = each_user.roll_no
+        print(roll)
         year_of_adm = roll[1:3]
         dept_of_adm = roll[3:5]
+        print(year_of_adm + " " + dept_of_adm)
 
         if curr.month >= 7:
             year_of_adm = int(year_of_adm)+1
-
-        if(year == int(curr_year) - int(year_of_adm)):
+            print("year_of_adm changed")
+        print(str(year == int(curr_year) - int(year_of_adm)))
+        if(year == int(curr_year) - int(year_of_adm)) and dept_name == str(dept_of_adm):
+            print("Sucess")
             send_message(each_user.user_fb_id,exam_time_table_msg)
 
     return exam_time_table_msg
