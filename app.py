@@ -262,6 +262,34 @@ def check_reminder():
             db.session.commit()
     return "Success"
 
+@app.route('/send_dailytt',methods=['GET'])
+def send_dailytt():
+        curr = datetime.utcnow()
+        curr_year = curr.year%2000
+        ist=datetime.now(pytz.timezone('Asia/Kolkata'))
+        week_day=ist.isoweekday()+1
+
+        daily_time_table_list = daily_time_table.query.filter(day_of_week == week_day).all()
+        users=subscribers.query.all()
+        for each_time_table in daily_time_table_list:
+            tt_dept = each_time_table.department
+            tt_year = each_time_table.year
+            subjects=each_ime_table.subjects.split('$')
+            time_slots = ["8:30 - 9:25","9:25 - 10:20","10:30 - 11:25","11:25 - 12:20","14:00 - 14:55","14:55 - 15:50","15:50 - 16:45","16:45 - 17:40"]
+            print(str(subjects))
+            daily_time_table_msg="Your Today's Time Table:\n-----------\n"
+            for i in range(0,8):
+                daily_time_table_msg = daily_time_table_msg + time_slots[i] + " - " + subjects[i] + "\n"
+            for each_user in users:
+                roll = each_user.roll_no
+                year_of_adm = roll[1:3]
+                dept_of_adm = roll[3:5]
+                if curr.month >= 7:
+                    year_of_adm = int(year_of_adm)+1
+                if (str(tt_year) == str(int(curr_year) - int(year_of_adm))) and tt_dept == str(dept_of_adm):
+                    send_message(each_user.user_fb_id,daily_time_table_msg)
+
+        return "Success"
 
 @app.route('/send_notification_stu_chap_post',methods=['POST'])       #Function to send notification of stu chap
 def send_notification_stu_chap_post():
