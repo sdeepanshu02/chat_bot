@@ -267,7 +267,7 @@ def send_dailytt():
         curr = datetime.utcnow()
         curr_year = curr.year%2000
         ist=datetime.now(pytz.timezone('Asia/Kolkata'))
-        week_day=ist.isoweekday()+1
+        week_day=1#ist.isoweekday()
         print(week_day)
 
         daily_time_table_list = daily_time_table.query.filter(daily_time_table.day_of_week == week_day).all()
