@@ -338,29 +338,29 @@ def prev_papers_entry_post():
 
 @app.route('/exam_time_table_post',methods=['POST'])       #Function to enter exam time table details
 def exam_time_table_post():
-    dept_name = request.form['dept']
+    dept_name = (request.form['dept']).upper()
     year = request.form['year']
     sem = request.form['semester']
 
-    date1 = request.form['1']
-    sub1 = request.form['2']
-    time1 = request.form['3']
+    date1 = (request.form['1']).upper()).upper()
+    sub1 = (request.form['2']).upper()
+    time1 = (request.form['3']).upper()
 
-    date2 = request.form['4']
-    sub2 = request.form['5']
-    time2 = request.form['6']
+    date2 = (request.form['4']).upper()
+    sub2 = (request.form['5']).upper()
+    time2 = (request.form['6']).upper()
 
-    date3 = request.form['7']
-    sub3 = request.form['8']
-    time3 = request.form['9']
+    date3 = (request.form['7']).upper()
+    sub3 = (request.form['8']).upper()
+    time3 = (request.form['9']).upper()
 
-    date4 = request.form['10']
-    sub4 = request.form['11']
-    time4 = request.form['12']
+    date4 = (request.form['10']).upper()
+    sub4 = (request.form['11']).upper()
+    time4 = (request.form['12']).upper()
 
-    date5 = request.form['13']
-    sub5 = request.form['14']
-    time5 = request.form['15']
+    date5 = (request.form['13']).upper()
+    sub5 = (request.form['14']).upper()
+    time5 = (request.form['15']).upper()
 
     exam_time_table_msg = "Exam Time Table\n---------------\nDepartment: " + dept_name + "\nYear: " + year + "\nSemester: " + sem + "\n---------------------\n"+date1+"\n"+sub1+"\n"+time1
     exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date2+"\n"+sub2+"\n"+time2
@@ -368,7 +368,9 @@ def exam_time_table_post():
     exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date4+"\n"+sub4+"\n"+time4
     exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date5+"\n"+sub5+"\n"+time5
 
-    return exam_time_table_msg
+    dept_short_dict = {'COMPUTER ENGINEERING DEPARTMENT':'CO','ELECTRICAL ENGINEERING DEPARTMENT':'EE','ELECTRONICS ENGINEERING DEPARTMENT':'EC','MECHANICAL ENGINEERING DEPARTMENT':'ME','CIVIL ENGINEERING DEPARTMENT':'CE','CHEMICAL ENGINEERING DEPARTMENT':'CH'}
+    dept_name = dept_short_dict[dept_name]
+    return exam_time_table_msg+dept_name
 
 def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
