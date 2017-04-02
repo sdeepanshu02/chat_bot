@@ -387,8 +387,8 @@ def exam_time_table_post():
         if curr.month >= 7:
             year_of_adm = int(year_of_adm)+1
             print("year_of_adm changed")
-        print(str(year == int(curr_year) - int(year_of_adm)))
-        if(year == int(curr_year) - int(year_of_adm)) and dept_name == str(dept_of_adm):
+        print(str(int(year) == int(curr_year) - int(year_of_adm)))
+        if(int(year) == int(curr_year) - int(year_of_adm)) and dept_name == str(dept_of_adm):
             print("Sucess")
             send_message(each_user.user_fb_id,exam_time_table_msg)
 
