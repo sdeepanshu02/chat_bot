@@ -262,6 +262,21 @@ def check_reminder():
             db.session.commit()
     return "Success"
 
+@app.route('/check_duedate',methods=['GET'])
+def check_duedate():
+    check_due_date = date.today()+timedelta(days=1)
+    list_of_book_issue=book_issue.query.filter(book_issue.due_date == check_due_date and book_issue.reminded == False).all()
+    for each_issue in list_of_book_issue:
+        users = subscribers.query.filter(subscribers.roll_no == each_issue.stu_roll_no).all()
+        for each_user in users:
+            due_message = "Book Due Date Reminder\n--------------\n.You have issued "+each_issue.book_name+" book whose due date is "+str(each_issue.due_date)[0:11]
+            send_message(each_user.user_fb_id,due_message)
+        db.session.query(book_issue).filter(book_issue.book_name==each_issue.book_name and book_issue.stu_roll_no == each_issue.stu_roll_no).update({book_issue.reminded:True})
+        db.session.add(issued_book)
+        db.session.commit()
+    return "Success"
+
+
 @app.route('/send_dailytt',methods=['GET'])
 def send_dailytt():
         curr = datetime.utcnow()
