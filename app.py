@@ -534,7 +534,7 @@ def delsubscribers():
     db.session.commit()
     return "sucessfully deleted"
 
-@app.route('/del/reminders/all',methods=['GET'])    #Function for delete all values in subscribers
+@app.route('/del/reminders/all',methods=['GET'])    #Function for delet all values in subscribers
 def delreminders():
     reminders.query.delete()
     db.session.commit()
