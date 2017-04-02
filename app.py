@@ -370,7 +370,23 @@ def exam_time_table_post():
 
     dept_short_dict = {'COMPUTER ENGINEERING DEPARTMENT':'CO','ELECTRICAL ENGINEERING DEPARTMENT':'EE','ELECTRONICS ENGINEERING DEPARTMENT':'EC','MECHANICAL ENGINEERING DEPARTMENT':'ME','CIVIL ENGINEERING DEPARTMENT':'CE','CHEMICAL ENGINEERING DEPARTMENT':'CH'}
     dept_name = dept_short_dict[dept_name]
-    return exam_time_table_msg+dept_name
+
+    curr = datetime.utcnow()
+    curr_year = curr.year%2000
+
+    users = subscribers.query.all()
+    for each_user in users:
+        roll = each_user.roll_no
+        year_of_adm = roll[1:3]
+        dept_of_adm = roll[3:5]
+
+        if curr.month >= 7:
+            year_of_adm = int(year_of_adm)+1
+
+        if(year == curr_year - year_of_adm):
+            send_message(each_user.user_fb_id,exam_time_table_msg)
+
+    return exam_time_table_msg
 
 def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
