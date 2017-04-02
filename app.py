@@ -240,6 +240,10 @@ def book_issue_from_lib():
 def prev_papers_entry():
     return render_template("q_papers.html")
 
+@app.route('/exam_time_table')       #Function to enter exam time table details
+def exam_time_table():
+    return render_template("e_tt.html")
+
 @app.route('/check_reminder',methods=['GET'])
 def check_reminder():
     list_of_reminders = reminders.query.all()
@@ -331,6 +335,10 @@ def prev_papers_entry_post():
     db.session.add(paper)
     db.session.commit()
     return "sucessfully added " + dept + " " + year + " " + sem + " " + subject + " " + exam_type
+
+@app.route('/exam_time_table_post')       #Function to enter exam time table details
+def exam_time_table_post():
+    return render_template("e_tt.html")
 
 def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
