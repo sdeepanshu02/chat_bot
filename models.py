@@ -97,3 +97,15 @@ class reminders(db.Model):
 
     def __repr__(self):
         return '<reminders %r>' % (self.senderID)
+
+class daily_time_table(db.Model):
+    __tablename__='daily_time_table'
+    id=db.Column(db.Integer,primary_key=True)
+    department=db.Column(db.String(5))
+    year=db.Column(db.String(4))
+    semester=db.Column(db.String(4))
+    day_of_week=db.Column(db.Integer)
+    subjects=db.Column(db.String(100))
+
+    def __repr__(self):
+        return '<daily_time_table %r>' % (self.day_of_week)
