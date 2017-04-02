@@ -244,6 +244,10 @@ def prev_papers_entry():
 def exam_time_table():
     return render_template("e_tt.html")
 
+@app.route('/daily_time_table')       #Function to enter exam time table details
+def daily_time_table():
+    return render_template("tt.html")
+
 @app.route('/check_reminder',methods=['GET'])
 def check_reminder():
     list_of_reminders = reminders.query.all()
@@ -393,6 +397,17 @@ def exam_time_table_post():
             send_message(each_user.user_fb_id,exam_time_table_msg)
 
     return exam_time_table_msg
+
+@app.route('/daily_time_table_post',methods=['POST'])       #Function to enter detail time table details
+def daily_time_table_post():
+    dept_name = (request.form['dept']).upper()
+    year = request.form['year']
+    sem = request.form['semester']
+
+    dept_short_dict = {'COMPUTER ENGINEERING DEPARTMENT':'CO','ELECTRICAL ENGINEERING DEPARTMENT':'EE','ELECTRONICS ENGINEERING DEPARTMENT':'EC','MECHANICAL ENGINEERING DEPARTMENT':'ME','CIVIL ENGINEERING DEPARTMENT':'CE','CHEMICAL ENGINEERING DEPARTMENT':'CH'}
+    dept_name = dept_short_dict[dept_name]
+
+    return "HELLO"
 
 def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
