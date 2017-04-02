@@ -336,9 +336,39 @@ def prev_papers_entry_post():
     db.session.commit()
     return "sucessfully added " + dept + " " + year + " " + sem + " " + subject + " " + exam_type
 
-@app.route('/exam_time_table_post')       #Function to enter exam time table details
+@app.route('/exam_time_table_post',methods=['POST'])       #Function to enter exam time table details
 def exam_time_table_post():
-    return render_template("e_tt.html")
+    dept_name = request.form['dept']
+    year = request.form['year']
+    sem = request.form['semester']
+
+    date1 = request.form['1']
+    sub1 = request.form['2']
+    time1 = request.form['3']
+
+    date2 = request.form['4']
+    sub2 = request.form['5']
+    time2 = request.form['6']
+
+    date3 = request.form['7']
+    sub3 = request.form['8']
+    time3 = request.form['9']
+
+    date4 = request.form['10']
+    sub4 = request.form['11']
+    time4 = request.form['12']
+
+    date5 = request.form['13']
+    sub5 = request.form['14']
+    time5 = request.form['15']
+
+    exam_time_table_msg = "Exam Time Table\n---------------\nDepartment: " + dept_name + "\nYear: " + year + "\nSemester: " + sem + "\n---------------------\n"+date1+"\n"+sub1+"\n"+time1
+    exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date2+"\n"+sub2+"\n"+time2
+    exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date3+"\n"+sub3+"\n"+time3
+    exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date4+"\n"+sub4+"\n"+time4
+    exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date5+"\n"+sub5+"\n"+time5
+
+    return exam_time_table_msg
 
 def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
