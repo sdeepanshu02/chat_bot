@@ -429,7 +429,7 @@ def daily_time_table_post():
     db.session.add(day4)
     db.session.add(day5)
     db.session.commit()
-    return "HELLO" + str(monday)+"HELLO" + str(tuesday)+"HELLO" + str(wednesday)+"HELLO" + str(thrusday)+"HELLO" + str(friday)
+    return "successfully inserted Time Table"
 
 def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
