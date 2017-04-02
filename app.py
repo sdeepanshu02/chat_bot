@@ -269,12 +269,12 @@ def send_dailytt():
         ist=datetime.now(pytz.timezone('Asia/Kolkata'))
         week_day=ist.isoweekday()+1
 
-        daily_time_table_list = daily_time_table.query.filter(day_of_week == week_day).all()
+        daily_time_table_list = daily_time_table.query.filter(daily_time_table.day_of_week == week_day).all()
         users=subscribers.query.all()
         for each_time_table in daily_time_table_list:
             tt_dept = each_time_table.department
             tt_year = each_time_table.year
-            subjects=each_ime_table.subjects.split('$')
+            subjects=each_time_table.subjects.split('$')
             time_slots = ["8:30 - 9:25","9:25 - 10:20","10:30 - 11:25","11:25 - 12:20","14:00 - 14:55","14:55 - 15:50","15:50 - 16:45","16:45 - 17:40"]
             print(str(subjects))
             daily_time_table_msg="Your Today's Time Table:\n-----------\n"
