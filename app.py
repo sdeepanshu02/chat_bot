@@ -403,11 +403,14 @@ def daily_time_table_post():
     dept_name = (request.form['dept']).upper()
     year = request.form['year']
     sem = request.form['semester']
-
+    monday = []
     dept_short_dict = {'COMPUTER ENGINEERING DEPARTMENT':'CO','ELECTRICAL ENGINEERING DEPARTMENT':'EE','ELECTRONICS ENGINEERING DEPARTMENT':'EC','MECHANICAL ENGINEERING DEPARTMENT':'ME','CIVIL ENGINEERING DEPARTMENT':'CE','CHEMICAL ENGINEERING DEPARTMENT':'CH'}
-    dept_name = dept_short_dict[dept_name]
+    dept_name_short = dept_short_dict[dept_name]
+    for i = 1:8 :
+        monday[i] = (request.form[str(i)]).upper()
 
-    return "HELLO"
+    print(str(monday))
+    return "HELLO" + str(monday)
 
 def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
