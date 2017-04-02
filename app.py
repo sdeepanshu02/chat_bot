@@ -21,7 +21,7 @@ CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_
 db = SQLAlchemy(app)
 app.config.from_pyfile('app.cfg')   #config file
 
-from models import posts, subscribers,warden,hod,lib_books,book_issue,prev_papers,sessions,reminders
+from models import posts, subscribers,warden,hod,lib_books,book_issue,prev_papers,sessions,reminders,daily_time_table
 
 @app.route('/', methods=['GET'])
 def verify():
@@ -403,21 +403,32 @@ def daily_time_table_post():
     dept_name = (request.form['dept']).upper()
     year = request.form['year']
     sem = request.form['semester']
-    monday = []
-    tuesday = []
-    wednesday = []
-    thrusday = []
-    friday = []
+    monday = ""
+    tuesday = ""
+    wednesday = ""
+    thrusday = ""
+    friday = ""
 
     dept_short_dict = {'COMPUTER ENGINEERING DEPARTMENT':'CO','ELECTRICAL ENGINEERING DEPARTMENT':'EE','ELECTRONICS ENGINEERING DEPARTMENT':'EC','MECHANICAL ENGINEERING DEPARTMENT':'ME','CIVIL ENGINEERING DEPARTMENT':'CE','CHEMICAL ENGINEERING DEPARTMENT':'CH'}
     dept_name_short = dept_short_dict[dept_name]
     for i in range(1,9) :
-        monday.append((request.form[str(i)]).upper())
-        tuesday.append((request.form[str(i+8)]).upper())
-        wednesday.append((request.form[str(i+16)]).upper())
-        thrusday.append((request.form[str(i+24)]).upper())
-        friday.append((request.form[str(i+32)]).upper())
+        monday = monday+'$'+((request.form[str(i)]).upper())
+        tuesday = tuesday+'$'+((request.form[str(i+8)]).upper())
+        wednesday = wednesday+'$'+((request.form[str(i+16)]).upper())
+        thrusday = thursday+'$'+((request.form[str(i+24)]).upper())
+        friday = friday+'$'+((request.form[str(i+32)]).upper())
 
+    day1=daily_time_table(department=dept_name_short,year=year,semester=sem,day_of_week=1,subjects=monday)
+    day2=daily_time_table(department=dept_name_short,year=year,semester=sem,day_of_week=2,subjects=tuesday)
+    day3=daily_time_table(department=dept_name_short,year=year,semester=sem,day_of_week=3,subjects=wednesday)
+    day4=daily_time_table(department=dept_name_short,year=year,semester=sem,day_of_week=4,subjects=thursday)
+    day5=daily_time_table(department=dept_name_short,year=year,semester=sem,day_of_week=5,subjects=friday)
+    db.session.add(day1)
+    db.session.add(day2)
+    db.session.add(day3)
+    db.session.add(day4)
+    db.session.add(day5)
+    db.session.commit()
     return "HELLO" + str(monday)+"HELLO" + str(tuesday)+"HELLO" + str(wednesday)+"HELLO" + str(thrusday)+"HELLO" + str(friday)
 
 def process_text_message(msg,s_id):
@@ -552,6 +563,15 @@ def seeallreminders():
     x=""
     for p in a:
         x=x+p.senderID+" "+p.reminder_text+" "+p.reminder_time+" "+str(p.reminded)+"<br>"
+    return x
+
+@app.route('/seedailytt',methods=['GET'])    #Function to see all reminders
+def seedailytt():
+    a=daily_time_table.query.all()
+    log(a)
+    x=""
+    for p in a:
+        x=x+p.department+" "+p.year+" "+p.semester+" "+str(p.day_of_week)+p.subjects+"<br>"
     return x
 
 def send_message(recipient_id, message_text):
