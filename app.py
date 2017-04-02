@@ -342,7 +342,7 @@ def exam_time_table_post():
     year = request.form['year']
     sem = request.form['semester']
 
-    date1 = (request.form['1']).upper()).upper()
+    date1 = (request.form['1']).upper()
     sub1 = (request.form['2']).upper()
     time1 = (request.form['3']).upper()
 
