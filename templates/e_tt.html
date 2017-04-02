@@ -79,6 +79,8 @@
          #submit{
          margin-top: 2em;
          margin-left: 27.5em;
+         width: 80px;
+         height: 30px;
          }
          tr:last-child td:first-child {
          border-bottom-left-radius:3px;
@@ -140,9 +142,11 @@
          <h3 align="center">Time Table</h3>
       </div>
       <form action="https://jarvis-amoc.herokuapp.com/exam_time_table_post" method="Post">
-         <label id="right">Department:        </label><input id="dept" name="dept" type="text" size="5">
-         <label>Year:        </label><input id="year" name="year" type="text" size="5">
-         <label>Semester:     </label><input id="semester" name="semester" type="text" size="5"><br><br>
+         <label id="right">Department:        </label><input id="dept" name="dept" type="text" size="17">
+         <label>Year:        </label><input id="year" name="year" type="number" min="1" max="5" size="5">
+         <label>Semester:     </label><input id="semester" name="semester" type="number" min="1" max="10" size="5">
+         <label>Type of Exam:     </label><input id="toe" name="toe" type="text" size="10"><br><br>
+
          <table class="table-fill">
             <thead>
                <tr>
@@ -153,29 +157,29 @@
             </thead>
             <tbody>
                <tr>
-                  <td><input type="text" id="1" name="1" size="9"></td>
-                  <td><input type="text" id="2" name="2" size="9"></td>
-                  <td><input type="text" id="3" name="3" size="9"></td>
+                  <td><input type="text" id="1" name="1" size="11"></td>
+                  <td><input type="text" id="2" name="2" size="23"></td>
+                  <td><input type="text" id="3" name="3" size="15"></td>
                </tr>
                <tr>
-                  <td><input type="text" id="4" name="4" size="9"></td>
-                  <td><input type="text" id="5" name="5" size="9"></td>
-                  <td><input type="text" id="6" name="6" size="9"></td>
+                  <td><input type="text" id="4" name="4" size="11"></td>
+                  <td><input type="text" id="5" name="5" size="23"></td>
+                  <td><input type="text" id="6" name="6" size="15"></td>
                </tr>
                <tr>
-                  <td><input type="text" id="7" name="7" size="9"></td>
-                  <td><input type="text" id="8" name="8" size="9"></td>
-                  <td><input type="text" id="9" name="9" size="9"></td>
+                  <td><input type="text" id="7" name="7" size="11"></td>
+                  <td><input type="text" id="8" name="8" size="23"></td>
+                  <td><input type="text" id="9" name="9" size="15"></td>
                </tr>
                <tr>
-                  <td><input type="text" id="10" name="10" size="9"></td>
-                  <td><input type="text" id="11" name="11" size="9"></td>
-                  <td><input type="text" id="12" name="12" size="9"></td>
+                  <td><input type="text" id="10" name="10" size="11"></td>
+                  <td><input type="text" id="11" name="11" size="23"></td>
+                  <td><input type="text" id="12" name="12" size="15"></td>
                </tr>
                <tr>
-                  <td><input type="text" id="13" name="13" size="9"></td>
-                  <td><input type="text" id="14" name="14" size="9"></td>
-                  <td><input type="text" id="15" name="15" size="9"></td>
+                  <td><input type="text" id="13" name="13" size="11"></td>
+                  <td><input type="text" id="14" name="14" size="23"></td>
+                  <td><input type="text" id="15" name="15" size="15"></td>
                </tr>
             </tbody>
          </table>
