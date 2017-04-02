@@ -272,7 +272,6 @@ def check_duedate():
             due_message = "Book Due Date Reminder\n--------------\n.You have issued "+each_issue.book_name+" book whose due date is "+str(each_issue.due_date)[0:11]
             send_message(each_user.user_fb_id,due_message)
         db.session.query(book_issue).filter(book_issue.book_name==each_issue.book_name and book_issue.stu_roll_no == each_issue.stu_roll_no).update({book_issue.reminded:True})
-        db.session.add(issued_book)
         db.session.commit()
     return "Success"
 
