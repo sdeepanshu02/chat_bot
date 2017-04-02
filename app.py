@@ -383,7 +383,7 @@ def exam_time_table_post():
         if curr.month >= 7:
             year_of_adm = int(year_of_adm)+1
 
-        if(year == curr_year - year_of_adm):
+        if(year == int(curr_year) - int(year_of_adm)):
             send_message(each_user.user_fb_id,exam_time_table_msg)
 
     return exam_time_table_msg
