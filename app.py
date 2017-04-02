@@ -284,7 +284,7 @@ def send_dailytt():
             print(str(subjects))
             daily_time_table_msg="Your Today's Time Table:\n-----------\n"
             for i in range(0,8):
-                daily_time_table_msg = daily_time_table_msg + time_slots[i] + " - " + subjects[i] + "\n"
+                daily_time_table_msg = daily_time_table_msg + time_slots[i] + " - " + subjects[i+1] + "\n"
             print(daily_time_table_msg)
             for each_user in users:
                 print("New User")
@@ -611,6 +611,12 @@ def seedailytt():
     for p in a:
         x=x+p.department+" "+p.year+" "+p.semester+" "+str(p.day_of_week)+p.subjects+"<br>"
     return x
+
+@app.route('/del/dailytt/all',methods=['GET'])    #Function for delete all values in daily_time_table
+def deldailytt():
+    daily_time_table.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
 
 def send_message(recipient_id, message_text):
 
