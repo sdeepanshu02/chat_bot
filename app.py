@@ -245,7 +245,7 @@ def exam_time_table():
     return render_template("e_tt.html")
 
 @app.route('/daily_time_table')       #Function to enter exam time table details
-def daily_time_table():
+def daily_tt():
     return render_template("tt.html")
 
 @app.route('/check_reminder',methods=['GET'])
