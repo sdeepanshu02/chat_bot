@@ -406,7 +406,7 @@ def daily_time_table_post():
     monday = ""
     tuesday = ""
     wednesday = ""
-    thrusday = ""
+    thursday = ""
     friday = ""
 
     dept_short_dict = {'COMPUTER ENGINEERING DEPARTMENT':'CO','ELECTRICAL ENGINEERING DEPARTMENT':'EE','ELECTRONICS ENGINEERING DEPARTMENT':'EC','MECHANICAL ENGINEERING DEPARTMENT':'ME','CIVIL ENGINEERING DEPARTMENT':'CE','CHEMICAL ENGINEERING DEPARTMENT':'CH'}
@@ -415,7 +415,7 @@ def daily_time_table_post():
         monday = monday+'$'+((request.form[str(i)]).upper())
         tuesday = tuesday+'$'+((request.form[str(i+8)]).upper())
         wednesday = wednesday+'$'+((request.form[str(i+16)]).upper())
-        thrusday = thursday+'$'+((request.form[str(i+24)]).upper())
+        thursday = thursday+'$'+((request.form[str(i+24)]).upper())
         friday = friday+'$'+((request.form[str(i+32)]).upper())
 
     day1=daily_time_table(department=dept_name_short,year=year,semester=sem,day_of_week=1,subjects=monday)
