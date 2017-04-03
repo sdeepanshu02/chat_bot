@@ -28,11 +28,11 @@ function doit(field){
  </script>
 <form action="https://jarvis-amoc.herokuapp.com/book_issue_post" method="Post">
   <div class="group">
-    <input type="text" name="stu_no" id="stu_no" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="stu_no" id="stu_no" onblur="doit(this.id)" required><span class="highlight"></span><span class="bar"></span>
     <label>Student's Roll No.</label>
   </div>
   <div class="group">
-    <input type="text" name="b_name" id="b_name" onblur="doit(this.id)"><span class="highlight"></span><span class="bar"></span>
+    <input type="text" name="b_name" id="b_name" onblur="doit(this.id)" required><span class="highlight"></span><span class="bar"></span>
     <label>Book Name</label>
   </div>
   <div class="group">
