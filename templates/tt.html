@@ -136,9 +136,9 @@
          <h3 align="center">Time Table</h3>
       </div>
       <form action="https://jarvis-amoc.herokuapp.com/daily_time_table_post" method="Post">
-         <label id="right">Department:        </label><input id="dept" name="dept" type="text" size="17">
-         <label>Year:        </label><input id="year" name="year" type="number" min="1" max="5" size="5">
-         <label>Semester:     </label><input id="semester" name="semester" type="number" min="1" max="10" size="5"><br><br>
+         <label id="right">Department:        </label><input id="dept" name="dept" type="text" size="17" required>
+         <label>Year:        </label><input id="year" name="year" type="number" min="1" max="5" size="5" required>
+         <label>Semester:     </label><input id="semester" name="semester" type="number" min="1" max="10" size="5" required><br><br>
          <table class="table-fill">
             <thead>
                <tr>
@@ -233,8 +233,9 @@
 </tr>
             </tbody>
          </table>
+	      <button type="submit" name="submit" id="submit" onclick="dash()">Submit</button>
       </form>
-      <button type="submit" name="submit" id="submit" onclick="dash()">Submit</button>
+      
       <script type="text/javascript">
 
 function dash(){
