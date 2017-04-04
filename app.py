@@ -151,7 +151,7 @@ def getdata():
         google_books_json = json.loads(google_books_api.content)
         book_name_to_search = (google_books_json['items'][0]['volumeInfo']['title']).upper()
         flag=0
-        book_name_to_search=book_name_to_search[0:60]
+        book_name_to_search=book_name_to_search[0:59]
         log(book_name_to_search)
         list_of_books = lib_books.query.all()
         for each_book in list_of_books:
