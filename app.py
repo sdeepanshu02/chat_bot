@@ -150,16 +150,20 @@ def getdata():
         google_books_api = requests.get('https://www.googleapis.com/books/v1/volumes?q='+book_name_to_search)
         google_books_json = json.loads(google_books_api.content)
         book_name_to_search = (google_books_json['items'][0]['volumeInfo']['title']).upper()
-
+        flag=0
         log(book_name_to_search)
         list_of_books = lib_books.query.all()
         for each_book in list_of_books:
             log(each_book.book_name)
             if each_book.book_name == book_name_to_search and each_book.no_of_copies>0:
                 result = "Yes, "+each_book.book_name+ " is available in Library. There are "+str(each_book.no_of_copies)+" copies currently available."
+                flag=1
             elif each_book.book_name == book_name_to_search and each_book.no_of_copies == 0:
                 result = "Sorry, this book is not currently available."
-        result="This book is not available in library."
+                flag=1
+
+        if flag == 0:
+            result="This book is not available in library."
     elif intentName == "wiki":
         wiki_search_term = parameters_dict["wiki_term"]
         try:
