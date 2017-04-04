@@ -195,7 +195,6 @@ def getdata():
         query_result = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+maps_query+'&location=21.167171%2C72.785145&radius=7000&key=AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc')
         query_result_json = json.loads(query_result.content)
         list_of_places=[]
-        #print(query_result_json)
         for place in query_result_json['results']:
             address = place['formatted_address']
             name_of_place = place['name']
@@ -464,7 +463,6 @@ def check_duedate():
         db.session.commit()
     return "Success"
 
-
 @app.route('/send_dailytt',methods=['GET'])
 def send_dailytt():
         curr = datetime.utcnow()
@@ -550,16 +548,10 @@ def showdb():
     a=daily_time_table.query.all()
     for p in a:
         x=x+p.department+" "+p.year+" "+p.semester+" "+str(p.day_of_week)+p.subjects+"<br>"
-    return x
-
-@app.route('/seeallpost',methods=['GET'])       #Function to see all entry in posts
-def seeallpost():
-    a=posts.query.all()
-    log(a)
-    log("hello")
-    x=""
+    x = x + "<br><br><br>"
+    a=sessions.query.all()
     for p in a:
-        x=x+p.name+" "+p.post+" "+p.contact+" "+p.email+"<br>"
+        x=x+p.senderID+" "+p.sessionsID+"<br>"
     return x
 
 @app.route('/add/posts/<details>',methods=['GET'])      #Function for add entry in posts
@@ -570,35 +562,29 @@ def addposts(details):
     db.session.commit()
     return "sucessfully added"
 
-@app.route('/del/posts/all',methods=['GET'])    #Function for delete all values in posts
+@app.route('/delposts',methods=['GET'])    #Function for delete all values in posts
 def delposts():
     posts.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
-@app.route('/seeallsubscribers',methods=['GET'])       #Function to see all entry in subscribers
-def seeallsubscribers():
-    a=subscribers.query.all()
-    log(a)
-    log("hello")
-    x=""
-    for p in a:
-        x=x+p.roll_no+" "+p.user_fb_id+"<br>"
-    return x
+@app.route('/delsubscribers',methods=['GET'])    #Function for delete all values in subscribers
+def delsubscribers():
+    subscribers.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
 
-@app.route('/seelib',methods=['GET'])       #Function to see all entry in library
-def seelib():
-    a=lib_books.query.all()
-    b=book_issue.query.all()
-    log(a)
-    log("hello")
-    x=""
-    for p in a:
-        x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+str(p.price)+" "+str(p.no_of_copies)+"<br>"
-    x = x + "<br><br><br>"
-    for p in b:
-        x=x+p.book_name+" "+p.stu_roll_no+" "+str(p.issue_date)+" "+str(p.due_date)+" "+str(p.reminded)+"<br>"
-    return x
+@app.route('/delwarden',methods=['GET'])    #Function for delete all values in posts
+def delwarden():
+    warden.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
+
+@app.route('/delhod',methods=['GET'])    #Function for delete all values in posts
+def delhod():
+    hod.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
 
 @app.route('/dellib',methods=['GET'])       #Function to del all entry in library
 def dellib():
@@ -607,76 +593,25 @@ def dellib():
     db.session.commit()
     return "sucessfully deleted"
 
-@app.route('/seeprevpapers',methods=['GET'])       #Function to see all entry in prev_papers
-def seeprevpapers():
-    a=prev_papers.query.all()
-    log(a)
-    log("hello")
-    x=""
-    for p in a:
-        x=x+p.dept_name+" "+p.year+" "+p.semester+" "+p.subject+" "+p.exam_type+" "+p.url+"<br>"
-    return x
-
 @app.route('/delprevpapers',methods=['GET'])       #Function to del all entry in prev_papers
 def delprevpapers():
     prev_papers.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
-@app.route('/add/subscribers/',methods=['GET'])      #Function for add entry in subscribers
-def addsubscribers():
-    user = subscribers(roll_no = 'U15CO061', user_fb_id = 'hfsakjhskajhsk')
-    db.session.add(user)
-    db.session.commit()
-    return "sucessfully added"
-
-@app.route('/del/subscribers/all',methods=['GET'])    #Function for delete all values in subscribers
-def delsubscribers():
-    subscribers.query.delete()
+@app.route('/delsessions',methods=['GET'])    #Function for delet all values in subscribers
+def delsessions():
+    sessions.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
-@app.route('/del/reminders/all',methods=['GET'])    #Function for delet all values in subscribers
+@app.route('/delreminders',methods=['GET'])    #Function for delet all values in subscribers
 def delreminders():
     reminders.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
-
-@app.route('/cron_test',methods=['GET'])    #Function for testing cron scheduling
-def cron_test():
-    curr_time = datetime.utcnow()
-    send_message("1690740887619815","Hola It's "+str(curr_time)+" now")
-    return "sucessful"
-
-@app.route('/seeallsessions',methods=['GET'])    #Function for testing cron scheduling
-def seeallsessions():
-    a=sessions.query.all()
-    log(a)
-    x=""
-    for p in a:
-        x=x+p.senderID+" "+p.sessionsID+"<br>"
-    return x
-
-@app.route('/seeallreminders',methods=['GET'])    #Function to see all reminders
-def seeallreminders():
-    a=reminders.query.all()
-    log(a)
-    x=""
-    for p in a:
-        x=x+p.senderID+" "+p.reminder_text+" "+p.reminder_time+" "+str(p.reminded)+"<br>"
-    return x
-
-@app.route('/seedailytt',methods=['GET'])    #Function to see all reminders
-def seedailytt():
-    a=daily_time_table.query.all()
-    log(a)
-    x=""
-    for p in a:
-        x=x+p.department+" "+p.year+" "+p.semester+" "+str(p.day_of_week)+p.subjects+"<br>"
-    return x
-
-@app.route('/del/dailytt/all',methods=['GET'])    #Function for delete all values in daily_time_table
+@app.route('/deldailytt',methods=['GET'])    #Function for delete all values in daily_time_table
 def deldailytt():
     daily_time_table.query.delete()
     db.session.commit()
