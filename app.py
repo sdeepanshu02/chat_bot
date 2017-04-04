@@ -101,7 +101,7 @@ def getdata():
     sess_ID = data["sessionId"]
 
     print("************"+intentName+"***********"+sess_ID)
-    result = "I don't know"
+    result = "Sorry, I didn't get you !!"
 
     if intentName == "posts":                       # If Query is for post search in posts table
         search_value = parameters_dict["post"]      #retrive the search term
@@ -267,63 +267,6 @@ def exam_time_table():
 @app.route('/daily_time_table')       #Function to enter exam time table details
 def daily_tt():
     return render_template("tt.html")
-
-@app.route('/check_reminder',methods=['GET'])
-def check_reminder():
-    list_of_reminders = reminders.query.all()
-    ist = datetime.now(pytz.timezone('Asia/Kolkata'))
-    curr_time = datetime.strptime(ist.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')
-    for each_reminder in list_of_reminders:
-        reminder_time = datetime.strptime(each_reminder.reminder_time,'%Y-%m-%d %H:%M:%S')
-        if ((reminder_time - curr_time).total_seconds()<=7200):
-            msg="Your event "+each_reminder.reminder_text+" is about to begin shortly"
-            send_message(each_reminder.senderID,msg)
-            db.session.delete(each_reminder)
-            db.session.commit()
-    return "Success"
-
-@app.route('/check_duedate',methods=['GET'])
-def check_duedate():
-    check_due_date = date.today()+timedelta(days=1)
-    list_of_book_issue=book_issue.query.filter(book_issue.due_date == check_due_date).filter(book_issue.reminded == False).all()
-    for each_issue in list_of_book_issue:
-        users = subscribers.query.filter(subscribers.roll_no == each_issue.stu_roll_no).all()
-        for each_user in users:
-            due_message = "Book Due Date Reminder\n--------------\n.You have issued "+each_issue.book_name+" book whose due date is "+str(each_issue.due_date)[0:11]
-            send_message(each_user.user_fb_id,due_message)
-        db.session.query(book_issue).filter(book_issue.book_name==each_issue.book_name).filter(book_issue.stu_roll_no == each_issue.stu_roll_no).update({book_issue.reminded:True})
-        db.session.commit()
-    return "Success"
-
-
-@app.route('/send_dailytt',methods=['GET'])
-def send_dailytt():
-        curr = datetime.utcnow()
-        curr_year = curr.year%2000
-        ist=datetime.now(pytz.timezone('Asia/Kolkata'))
-        week_day=1#ist.isoweekday()
-
-        daily_time_table_list = daily_time_table.query.filter(daily_time_table.day_of_week == week_day).all()
-        users=subscribers.query.all()
-        for each_time_table in daily_time_table_list:
-            tt_dept = each_time_table.department
-            tt_year = each_time_table.year
-            subjects=each_time_table.subjects.split('$')
-            time_slots = ["8:30 - 9:25","9:25 - 10:20","10:30 - 11:25","11:25 - 12:20","14:00 - 14:55","14:55 - 15:50","15:50 - 16:45","16:45 - 17:40"]
-
-            daily_time_table_msg="Your Today's Time Table:\n-----------\n"
-            for i in range(0,8):
-                daily_time_table_msg = daily_time_table_msg + time_slots[i] + " - " + subjects[i+1] + "\n"
-            for each_user in users:
-                roll = each_user.roll_no
-                year_of_adm = roll[1:3]
-                dept_of_adm = roll[3:5]
-                if curr.month >= 7:
-                    year_of_adm = int(year_of_adm)+1
-                if (str(tt_year) == str(int(curr_year) - int(year_of_adm))) and tt_dept == str(dept_of_adm):
-                    send_message(each_user.user_fb_id,daily_time_table_msg)
-
-        return "Success"
 
 @app.route('/send_notification_stu_chap_post',methods=['POST'])       #Function to send notification of stu chap
 def send_notification_stu_chap_post():
@@ -494,6 +437,63 @@ def daily_time_table_post():
     db.session.commit()
     return "successfully inserted Time Table"
 
+@app.route('/check_reminder',methods=['GET'])
+def check_reminder():
+    list_of_reminders = reminders.query.all()
+    ist = datetime.now(pytz.timezone('Asia/Kolkata'))
+    curr_time = datetime.strptime(ist.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')
+    for each_reminder in list_of_reminders:
+        reminder_time = datetime.strptime(each_reminder.reminder_time,'%Y-%m-%d %H:%M:%S')
+        if ((reminder_time - curr_time).total_seconds()<=7200):
+            msg="Your event "+each_reminder.reminder_text+" is about to begin shortly"
+            send_message(each_reminder.senderID,msg)
+            db.session.delete(each_reminder)
+            db.session.commit()
+    return "Success"
+
+@app.route('/check_duedate',methods=['GET'])
+def check_duedate():
+    check_due_date = date.today()+timedelta(days=1)
+    list_of_book_issue=book_issue.query.filter(book_issue.due_date == check_due_date).filter(book_issue.reminded == False).all()
+    for each_issue in list_of_book_issue:
+        users = subscribers.query.filter(subscribers.roll_no == each_issue.stu_roll_no).all()
+        for each_user in users:
+            due_message = "Book Due Date Reminder\n--------------\n.You have issued "+each_issue.book_name+" book whose due date is "+str(each_issue.due_date)[0:11]
+            send_message(each_user.user_fb_id,due_message)
+        db.session.query(book_issue).filter(book_issue.book_name==each_issue.book_name).filter(book_issue.stu_roll_no == each_issue.stu_roll_no).update({book_issue.reminded:True})
+        db.session.commit()
+    return "Success"
+
+
+@app.route('/send_dailytt',methods=['GET'])
+def send_dailytt():
+        curr = datetime.utcnow()
+        curr_year = curr.year%2000
+        ist=datetime.now(pytz.timezone('Asia/Kolkata'))
+        week_day=1#ist.isoweekday()
+
+        daily_time_table_list = daily_time_table.query.filter(daily_time_table.day_of_week == week_day).all()
+        users=subscribers.query.all()
+        for each_time_table in daily_time_table_list:
+            tt_dept = each_time_table.department
+            tt_year = each_time_table.year
+            subjects=each_time_table.subjects.split('$')
+            time_slots = ["8:30 - 9:25","9:25 - 10:20","10:30 - 11:25","11:25 - 12:20","14:00 - 14:55","14:55 - 15:50","15:50 - 16:45","16:45 - 17:40"]
+
+            daily_time_table_msg="Your Today's Time Table:\n-----------\n"
+            for i in range(0,8):
+                daily_time_table_msg = daily_time_table_msg + time_slots[i] + " - " + subjects[i+1] + "\n"
+            for each_user in users:
+                roll = each_user.roll_no
+                year_of_adm = roll[1:3]
+                dept_of_adm = roll[3:5]
+                if curr.month >= 7:
+                    year_of_adm = int(year_of_adm)+1
+                if (str(tt_year) == str(int(curr_year) - int(year_of_adm))) and tt_dept == str(dept_of_adm):
+                    send_message(each_user.user_fb_id,daily_time_table_msg)
+
+        return "Success"
+
 def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
     request = ai.text_request()    #make call to api.ai api
@@ -512,6 +512,37 @@ def process_text_message(msg,s_id):
     else:
         return ("Sorry, I couldn't understand that question")
 
+@app.route('/showdb',methods=['GET'])       #Function to see all entry in posts
+def showdb():
+    x=""
+    a=posts.query.all()
+    for p in a:
+        x=x+p.name+" "+p.post+" "+p.contact+" "+p.email+"<br>"
+    x = x + "<br><br><br>"
+    a=subscribers.query.all()
+    for p in a:
+        x=x+p.roll_no+" "+p.user_fb_id+"<br>"
+    x = x + "<br><br><br>"
+    a=lib_books.query.all()
+    b=book_issue.query.all()
+    for p in a:
+        x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+str(p.price)+" "+str(p.no_of_copies)+"<br>"
+    x = x + "<br><br><br>"
+    for p in b:
+        x=x+p.book_name+" "+p.stu_roll_no+" "+str(p.issue_date)+" "+str(p.due_date)+" "+str(p.reminded)+"<br>"
+    x = x + "<br><br><br>"
+    a=prev_papers.query.all()
+    for p in a:
+        x=x+p.dept_name+" "+p.year+" "+p.semester+" "+p.subject+" "+p.exam_type+" "+p.url+"<br>"
+    x = x + "<br><br><br>"
+    a=reminders.query.all()
+    for p in a:
+        x=x+p.senderID+" "+p.reminder_text+" "+p.reminder_time+" "+str(p.reminded)+"<br>"
+    x = x + "<br><br><br>"
+    a=daily_time_table.query.all()
+    for p in a:
+        x=x+p.department+" "+p.year+" "+p.semester+" "+str(p.day_of_week)+p.subjects+"<br>"
+    return x
 
 @app.route('/seeallpost',methods=['GET'])       #Function to see all entry in posts
 def seeallpost():
