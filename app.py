@@ -104,7 +104,7 @@ def getdata():
     result = "I don't know"
 
     if intentName == "posts":                       # If Query is for post search in posts table
-        search_value = parameters_dict["post"]   #retrive the search term
+        search_value = parameters_dict["post"]      #retrive the search term
         list_of_posts = posts.query.all()
         for each_post in list_of_posts:
             if each_post.post == search_value:
@@ -171,9 +171,15 @@ def getdata():
     elif intentName == "wiki":
         wiki_search_term = parameters_dict["wiki_term"]
         try:
-            result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=3))
+            try:
+                result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=3))
+            except wikipedia.exceptions.PageError as e1:
+                result = "Sorry I could not find anything related " + wiki_search_term
         except wikipedia.exceptions.DisambiguationError as e:
-            result = "Here is what I found out.\n\n" + str(wikipedia.summary(e.options[0], sentences=3))
+            try:
+                result = "Here is what I found out.\n\n" + str(wikipedia.summary(e.options[0], sentences=3))
+            except wikipedia.exceptions.PageError as e2:
+                result = "Sorry I could not find anything related " + wiki_search_term 
 
     elif intentName == "previous_year_paper":
         dept = (parameters_dict["department"]).upper()
