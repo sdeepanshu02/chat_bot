@@ -519,6 +519,14 @@ def showdb():
     for p in a:
         x=x+p.name+" "+p.post+" "+p.contact+" "+p.email+"<br>"
     x = x + "<br><br><br>"
+    a=warden.query.all()
+    for p in a:
+        x=x+p.name+" "+p.hostelname+" "+p.contact+" "+p.email+"<br>"
+    x = x + "<br><br><br>"
+    a=hod.query.all()
+    for p in a:
+        x=x+p.name+" "+p.deptname+" "+p.contact+" "+p.email+"<br>"
+    x = x + "<br><br><br>"
     a=subscribers.query.all()
     for p in a:
         x=x+p.roll_no+" "+p.user_fb_id+"<br>"
