@@ -161,8 +161,8 @@ def getdata():
             elif each_book.book_name == book_name_to_search and each_book.no_of_copies == 0:
                 result = "Sorry, this book is not currently available."
                 flag=1
-        #if flag == 0:
-            #result="This book is not available in library."
+        if flag == 0:
+            result="This book is not available in library."
     elif intentName == "wiki":
         wiki_search_term = parameters_dict["wiki_term"]
         try:
