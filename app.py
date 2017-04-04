@@ -230,6 +230,10 @@ def getdata():
 
     return r
 
+@app.route('/admin')       #Admin Panel of BOT
+def admin():
+    return render_template("a_panel.html")
+
 @app.route('/send_notification_stu_chap')       #Function to send notification of stu chap
 def send_notification_stu_chap():
     return render_template("indexstu.html")
