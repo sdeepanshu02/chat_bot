@@ -168,6 +168,7 @@ def getdata():
                 flag=1
         if flag == 0:
             result="This book is not available in library."
+
     elif intentName == "wiki":
         wiki_search_term = parameters_dict["wiki_term"]
         try:
@@ -184,11 +185,16 @@ def getdata():
     elif intentName == "previous_year_paper":
         dept = (parameters_dict["department"]).upper()
         subject = (parameters_dict["subject"]).upper()
-        result = ""
+        result = "Here is links of previous year papers of " + subject + "\n----------------------"
+        flag = 0
         list_of_papers = prev_papers.query.all()
         for each_paper in list_of_papers:
             if (each_paper.subject == subject and each_paper.dept_name == dept):
+                flag = 1
                 result = result + each_paper.year + " URL: " + each_paper.url + "\n\n"
+
+        if flag == 0:
+            result = "Sorry, I could not found previous year papers of " + subject
 
     elif intentName == "map_search":
         maps_query = parameters_dict["map_query_term"]
