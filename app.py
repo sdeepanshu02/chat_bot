@@ -358,6 +358,7 @@ def book_entry_post():
     google_books_json = json.loads(google_books_api.content)
     b_name = (google_books_json['items'][0]['volumeInfo']['title']).upper()
     a_name = (google_books_json['items'][0]['volumeInfo']['authors'][0]).upper()
+    b_name=b_name[0:59]
     book = lib_books(book_id = b_id, book_name = b_name, author_name = a_name, price = price, no_of_copies = no_of_copy)
     db.session.add(book)
     db.session.commit()
