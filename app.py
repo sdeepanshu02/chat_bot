@@ -172,14 +172,14 @@ def getdata():
         wiki_search_term = parameters_dict["wiki_term"]
         try:
             try:
-                result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=3))
+                result = "Here is what I found out.\n\n" + (wikipedia.summary(wiki_search_term, sentences=3)).encode('utf-8').strip()
             except wikipedia.exceptions.PageError as e1:
                 result = "Sorry I could not find anything related " + wiki_search_term
         except wikipedia.exceptions.DisambiguationError as e:
             try:
-                result = "Here is what I found out.\n\n" + str(wikipedia.summary(e.options[0], sentences=3))
+                result = "Here is what I found out.\n\n" + (wikipedia.summary(e.options[0], sentences=3)).encode('utf-8').strip()
             except wikipedia.exceptions.PageError as e2:
-                result = "Sorry I could not find anything related " + wiki_search_term 
+                result = "Sorry I could not find anything related " + wiki_search_term
 
     elif intentName == "previous_year_paper":
         dept = (parameters_dict["department"]).upper()
