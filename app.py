@@ -54,21 +54,25 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    if(sender_id != '1639100099730911'):
-                        upper_case_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                        digits = "0123456789"
-                        sessionID = ''.join(random.SystemRandom().choice(upper_case_letters + digits) for _ in range(7))
-                        s = sessions(senderID = sender_id, sessionsID = sessionID)
-                        db.session.add(s)
-                        db.session.commit()
 
-                        regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
-                        pattern = re.compile(regex)
-                        string = message_text.upper()
-                        if pattern.match(string):
-                            add_subscriber(string,sender_id)
-                            send_message(sender_id, "You have been sucessfully subscribed !!")
+                    regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
+                    pattern = re.compile(regex)
+                    string = message_text.upper()
+                    if pattern.match(string):
+                        add_subscriber(string,sender_id)
+                        send_message(sender_id, "You have been sucessfully subscribed !!")
+                    else:
+                        users = subscribers.query.filter(subscribers.user_fb_id == sender_id).all()
+                        if not users:
+                            send_message(sender_id, "You have not subscribed yet !!!!\nPlease Subscribe to use the bot")
+                            send_message(sender_id, "To Subscribe send message\nEg. SUBSCRIBE U15COXXX")
                         else:
+                            upper_case_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            digits = "0123456789"
+                            sessionID = ''.join(random.SystemRandom().choice(upper_case_letters + digits) for _ in range(7))
+                            s = sessions(senderID = sender_id, sessionsID = sessionID)
+                            db.session.add(s)
+                            db.session.commit()
                             send_message(sender_id, process_text_message(message_text,sessionID))
                             db.session.delete(s)
                             db.session.commit()
