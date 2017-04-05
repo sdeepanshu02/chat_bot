@@ -632,8 +632,9 @@ def dict(word):
     client = swagger.ApiClient(apiKey, apiUrl)
     wordApi = WordApi.WordApi(client)
     definitions = wordApi.getDefinitions(word,limit=10)
-    print(definitions[0].text)
-    return ""+str(definitions)
+    for i in range(0,10):
+        print(definitions[i].text)
+    return ""+definitions[0].text+"<br>"definitions[1].text
 
 def send_message(recipient_id, message_text):
 
