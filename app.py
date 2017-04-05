@@ -172,17 +172,16 @@ def getdata():
             result="This book is not available in library."
 
     elif intentName == "wiki":
-        wiki_search_term = parameters_dict["wiki_term"]
-        try:
-            try:
-                result = "Here is what I found out.\n\n" + (wikipedia.summary(wiki_search_term, sentences=3)).encode('utf-8').strip()
-            except wikipedia.exceptions.PageError as e1:
-                result = "Sorry I could not find anything related " + wiki_search_term
-        except wikipedia.exceptions.DisambiguationError as e:
-            try:
-                result = "Here is what I found out.\n\n" + (wikipedia.summary(e.options[0], sentences=3)).encode('utf-8').strip()
-            except wikipedia.exceptions.PageError as e2:
-                result = "Sorry I could not find anything related " + wiki_search_term
+        search_term = parameters_dict["wiki_term"]
+        apiUrl = 'http://api.wordnik.com/v4'
+        apiKey = 'bec804c1fabd2417d9d79063cc00b33789b1d3470999f37af'
+        client = swagger.ApiClient(apiKey, apiUrl)
+        wordApi = WordApi.WordApi(client)
+        definitions = wordApi.getDefinitions(search_term,limit=10)
+        if not definitions:
+            result = "Sorry, I could not find any match for the word.\nPlease check if your word is correct."
+        else:
+            result = search_term + "\n---------------------\n"+definitions[0].text
 
     elif intentName == "previous_year_paper":
         dept = (parameters_dict["department"]).upper()
@@ -624,20 +623,6 @@ def deldailytt():
     daily_time_table.query.delete()
     db.session.commit()
     return "sucessfully deleted"
-
-@app.route('/dict/<word>',methods=['GET'])    #Function for delete all values in daily_time_table
-def dict(word):
-    apiUrl = 'http://api.wordnik.com/v4'
-    apiKey = 'bec804c1fabd2417d9d79063cc00b33789b1d3470999f37af'
-    client = swagger.ApiClient(apiKey, apiUrl)
-    wordApi = WordApi.WordApi(client)
-    definitions = wordApi.getDefinitions(word,limit=10)
-    if not definitions:
-        print("Not found")
-        return "Not found"
-    else:
-        print(definitions[0].text)
-        return ""+definitions[0].text
 
 def send_message(recipient_id, message_text):
 
