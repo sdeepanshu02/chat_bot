@@ -200,26 +200,29 @@ def getdata():
     elif intentName == "map_search":
         maps_query = parameters_dict["map_query_term"]
         query_result = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+maps_query+'&location=21.167171%2C72.785145&radius=7000&key=AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc')
-        query_result_json = json.loads(query_result.content)
+        query_result_list = json.loads(query_result.content)['results']
         list_of_places=[]
-        for place in query_result_json['results']:
-            address = place['formatted_address']
-            name_of_place = place['name']
-            place_rating = place['rating']
-            det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
-            list_of_places.append(det_of_place)
+        if not query_result_list:
+            result = "Sorry, I couldn't understand your query!!!\nPlease be more specific..."
+        else:
+            for place in query_result_list:
+                address = place['formatted_address']
+                name_of_place = place['name']
+                place_rating = place['rating']
+                det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
+                list_of_places.append(det_of_place)
 
-        list_of_places.sort(key=itemgetter('rating'),reverse=True)
-        result=""
-        r=""
-        send_id=str(db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID)
+            list_of_places.sort(key=itemgetter('rating'),reverse=True)
+            result=""
+            r=""
+            send_id=str(db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID)
 
-        send_message(send_id,"Here is what I found:")
-        for place in list_of_places[0:6]:
-            r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
-            send_message(send_id,r)
-        place=list_of_places[6]
-        result="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
+            send_message(send_id,"Here is what I found:")
+            for place in list_of_places[0:6]:
+                r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
+                send_message(send_id,r)
+            place=list_of_places[6]
+            result="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
 
     elif intentName == "reminder_task":
         remind_text = parameters_dict["remind_text"]
