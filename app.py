@@ -634,7 +634,7 @@ def dict(word):
     definitions = wordApi.getDefinitions(word,limit=10)
     for i in range(0,10):
         print(definitions[i].text)
-    return ""+definitions[0].text+"<br>"definitions[1].text
+    return ""+definitions[0].text+"<br>"+definitions[1].text
 
 def send_message(recipient_id, message_text):
 
