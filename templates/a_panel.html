@@ -21,8 +21,9 @@
 
   hgroup {
   	text-align:center;
-  	margin-top: 3em;
+  	margin-top: 3em;*/
     margin-bottom: 4em;
+
   }
 
   h1, h3 { font-weight: 300;
@@ -30,6 +31,7 @@
 
   h1 { color: #fff;
 font-size: 50px;
+padding-bottom: -500px;
    }
 
   h3 { color: #fff;
@@ -76,6 +78,7 @@ font-size: 50px;
       border: none;
       box-shadow: none;
       display: none;
+      margin-bottom: 100px;
       /*visibility: collapse;*/
     }
 
@@ -92,6 +95,7 @@ font-size: 50px;
     #vis{
       display: none;
       background-color: #000;
+      margin-bottom: 4em;
     }
   </style>
   <meta charset="UTF-8">
@@ -130,15 +134,12 @@ font-size: 50px;
   </form>
   <form class="inner" method="get" action="prev_papers_entry">
       <button type="submit">Previous Year's Papers</button>
-  </form><br><br>
+  </form>
   <form class="inner" method="get" action="daily_time_table">
       <button type="submit">Time Table</button>
   </form>
   <form class="inner" id="forme" method="get" action="exam_time_table">
       <button type="submit">Exam Time Table</button>
-  </form>
-  <form class="inner" id="db" method="get" action="showdb">
-      <button type="submit">Show Database</button>
   </form>
 </form>
 </div>

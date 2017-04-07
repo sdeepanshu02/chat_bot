@@ -13,7 +13,7 @@ body{
 
 }
 
-hgroup { 
+hgroup {
 	text-align:center;
 	margin-top: 2em;
 }
@@ -35,9 +35,9 @@ form {
 	box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
 }
 
-.group { 
-	position: relative; 
-	margin-bottom: 45px; 
+.group {
+	position: relative;
+	margin-bottom: 45px;
 }
 
 input {
@@ -59,10 +59,10 @@ input:focus { outline: none; }
 /* Label */
 
 label {
-	color: #999; 
+	color: #999;
 	font-size: 18px;
 	font-weight: normal;
-	position: absolute;
+	position: relative;
 	pointer-events: none;
 	left: 5px;
 	top: 10px;
@@ -90,12 +90,12 @@ input:focus ~ label, input.used ~ label {
 
 .bar:before, .bar:after {
 	content: '';
-	height: 2px; 
+	height: 2px;
 	width: 0;
-	bottom: 1px; 
+	bottom: 1px;
 	position: absolute;
-	background: #4a89dc; 
-	-webkit-transition:all 0.2s ease; 
+	background: #4a89dc;
+	-webkit-transition:all 0.2s ease;
 	transition: all 0.2s ease;
 }
 
@@ -113,9 +113,9 @@ input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
 
 .highlight {
 	position: absolute;
-	height: 60%; 
-	width: 100px; 
-	top: 25%; 
+	height: 60%;
+	width: 100px;
+	top: 25%;
 	left: 0;
 	pointer-events: none;
 	opacity: 0.5;

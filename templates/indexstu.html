@@ -12,6 +12,30 @@ form{
   width: 100%;
 }
 }
+
+.cb{
+  font-size: 18px;
+	padding: 10px 10px 10px 5px;
+	-webkit-appearance: none;
+	display: inline;
+	background: #fafafa;
+	color: #636363;
+	width: 10%;
+	border: none;
+	border-radius: 0;
+	border-bottom: 1px solid #757575;
+}
+.cbl{
+  color: #999;
+	font-size: 18px;
+	font-weight: normal;
+	position: relative !important;
+	pointer-events: none;
+	left: 0px !important;
+	top: 0px !important;
+	-webkit-transition:all 0.2s ease;
+	transition: all 0.2s ease;
+}
 </style>
 <body>
   <hgroup>
@@ -50,6 +74,21 @@ form{
     <input type="text" name="tar_yr" id="tar_yr" onblur="doit('tar_yr')" required><span class="highlight"></span><span class="bar"></span>
     <label>Target Year</label>
   </div>
+  <div>
+    Target Year
+    <br>
+      <label class="cbl" for = "tar_yr1">I</label>
+      <input class="cb" type="checkbox" name="tar_yr1" id="tar_yr1" value="one">
+      <label class="cbl" for = "tar_yr2">II</label>
+      <input class="cb"  type="checkbox" name="tar_yr1" id="tar_yr2" value="2">
+      <label class="cbl" for = "tar_yr3">III</label>
+      <input class="cb" type="checkbox" name="tar_yr1" id="tar_yr3" value="3">
+      <label class="cbl" for = "tar_yr4">IV</label>
+      <input class="cb" type="checkbox" name="tar_yr1" id="tar_yr4" value="4">
+      <label class="cbl" for = "tar_yr5">V</label>
+      <input class="cb" type="checkbox" name="tar_yr1" id="tar_yr5" value="5">
+
+    </div>
   <button type="submit" class="button buttonBlue">Submit
     <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
   </button>
@@ -59,12 +98,12 @@ form{
   <script  type="text/javascript">
  function doit(field){
   var e = document.getElementById(field);
-  
+
   e.className = 'used';
 }
   </script>
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-  
+
 
 </body>
 </html>
