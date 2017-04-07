@@ -287,6 +287,8 @@ def send_notification_stu_chap_post():
     time = request.form['time']
     venue = request.form['venue']
     tar_yr = request.form['tar_yr']
+    tr1 = request.form.getlist('tar_yr1')
+
     years=tar_yr.split('_')
     for each_year in years:
         each_year=int(each_year)
@@ -311,7 +313,7 @@ def send_notification_stu_chap_post():
 
 
     log(chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
-    return "Notification Sent Sucessfully !!"
+    return "Notification Sent Sucessfully !!"+str(tr1)
 
 @app.route('/book_entry_post',methods=['POST'])       #Function to Make a book entry in library table
 def book_entry_post():
