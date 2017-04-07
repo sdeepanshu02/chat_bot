@@ -132,7 +132,7 @@ def getdata():
         for each_hod in list_of_hods:
             if each_hod.deptname == dept_name:
                 if detail_term == "name":
-                    result = "The hod of"+each_hod.deptname + " is "+each_hod.name
+                    result = "The hod of "+each_hod.deptname + " is "+each_hod.name
                 elif detail_term == "contact":
                     result = "The contact of hod of "+each_hod.deptname + " is "+each_post.name
                 elif detail_term == "email":
