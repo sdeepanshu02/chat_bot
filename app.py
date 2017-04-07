@@ -337,7 +337,7 @@ def book_issue_from_lib_post():
     stu_roll_no = str(request.form['stu_no']).upper()
     b_name = str(request.form['b_name']).upper()
     issue_date=date.today()
-    due_date=date.today()+timedelta(days=1)
+    due_date=date.today()+timedelta(days=14)
     issued_book=book_issue(book_name=b_name,stu_roll_no=stu_roll_no,issue_date=issue_date,due_date=due_date,reminded=False)
     db.session.query(lib_books).filter(lib_books.book_name==b_name).update({lib_books.no_of_copies:lib_books.no_of_copies-1})
     db.session.add(issued_book)
