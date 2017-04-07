@@ -288,8 +288,8 @@ def send_notification_stu_chap_post():
     venue = request.form['venue']
     tar_yr = request.form['tar_yr']
 
-    years = request.form.getlist('tar_yr1')
-    #years=tar_yr.split('_')
+    #years = request.form.getlist('tar_yr1')
+    years=tar_yr.split(' ')
     for each_year in years:
         each_year=int(each_year)
         users=subscribers.query.all()
@@ -313,7 +313,7 @@ def send_notification_stu_chap_post():
 
 
     log(chp_name+" "+eve_name+" "+eve_dscp+" "+eve_poster_url+" "+date+" "+time+" "+venue+" "+tar_yr)
-    return "Notification Sent Sucessfully !!"
+    return render_template("success.html")
 
 @app.route('/book_entry_post',methods=['POST'])       #Function to Make a book entry in library table
 def book_entry_post():
@@ -330,7 +330,7 @@ def book_entry_post():
     book = lib_books(book_id = b_id, book_name = b_name, author_name = a_name, price = price, no_of_copies = no_of_copy)
     db.session.add(book)
     db.session.commit()
-    return "Sucessfully Added Book"+b_id+" "+b_name+" "+a_name+" "+str(no_of_copy)
+    return render_template("success.html")
 
 @app.route('/book_issue_post',methods=['POST'])       #Function to issue a book
 def book_issue_from_lib_post():
@@ -342,7 +342,7 @@ def book_issue_from_lib_post():
     db.session.query(lib_books).filter(lib_books.book_name==b_name).update({lib_books.no_of_copies:lib_books.no_of_copies-1})
     db.session.add(issued_book)
     db.session.commit()
-    return stu_roll_no+" "+b_name+" "+str(issue_date)+" "+str(due_date)
+    return render_template("success.html")
 
 @app.route('/prev_papers_entry_post',methods=['POST'])       #Function to enter previous year paper details
 def prev_papers_entry_post():
@@ -355,7 +355,7 @@ def prev_papers_entry_post():
     paper = prev_papers(dept_name = dept, year = year, semester = sem, subject = subject, exam_type = exam_type, url = url)
     db.session.add(paper)
     db.session.commit()
-    return "sucessfully added " + dept + " " + year + " " + sem + " " + subject + " " + exam_type
+    return render_template("success.html")
 
 @app.route('/exam_time_table_post',methods=['POST'])       #Function to enter exam time table details
 def exam_time_table_post():
@@ -414,7 +414,7 @@ def exam_time_table_post():
             print("Sucess")
             send_message(each_user.user_fb_id,exam_time_table_msg)
 
-    return exam_time_table_msg
+    return render_template("success.html")
 
 @app.route('/daily_time_table_post',methods=['POST'])       #Function to enter detail time table details
 def daily_time_table_post():
@@ -447,7 +447,7 @@ def daily_time_table_post():
     db.session.add(day4)
     db.session.add(day5)
     db.session.commit()
-    return "successfully inserted Time Table"
+    return render_template("success.html")
 
 @app.route('/check_reminder',methods=['GET'])
 def check_reminder():
