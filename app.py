@@ -119,7 +119,7 @@ def getdata():
         for each_post in list_of_posts:
             if each_post.post == search_entity:
                 if detail_term == "name":
-                    result ="The name of "+each_post.post + " is "+each_post.name
+                    result ="The "+each_post.post + "of svnit is "+each_post.name
                 elif detail_term == "contact":
                     result = "The contact of "+each_post.post+" is "+each_post.contact
                 elif detail_term == "email":
@@ -132,7 +132,7 @@ def getdata():
         for each_hod in list_of_hods:
             if each_hod.deptname == dept_name:
                 if detail_term == "name":
-                    result = "The name of hod of "+each_hod.deptname + " is "+each_hod.name
+                    result = "The hod of"+each_hod.deptname + " is "+each_hod.name
                 elif detail_term == "contact":
                     result = "The contact of hod of "+each_hod.deptname + " is "+each_post.name
                 elif detail_term == "email":
@@ -145,7 +145,7 @@ def getdata():
         for each_warden in list_of_wardens:
             if each_warden.hostelname == hostel_name:
                 if detail_term == "name":
-                    result ="The name of warden of "+each_warden.hostelname + " is "+each_warden.name
+                    result ="The warden of "+each_warden.hostelname + " is "+each_warden.name
                 elif detail_term == "contact":
                     result ="The contact of warden of "+each_warden.hostelname + " is "+each_warden.contact
                 elif detail_term == "email":
