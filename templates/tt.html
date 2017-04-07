@@ -13,7 +13,7 @@
          font-weight: 400;
          text-rendering: optimizeLegibility;
          }
-	      
+
 	 #submit{
 	margin-top: 2em;
 	margin-left: 590px;
@@ -24,7 +24,7 @@
 	font-weight: bold;
 	background-color: #2f79ef;
 
-} 
+}
          div.table-title {
          display: block;
          margin: auto;
@@ -90,11 +90,11 @@
          tr:nth-child(odd) td {
          background:#EBEBEB;
          }
-  
+
 	      label{
 	color: #fff;
 }
-	      
+
 	  h1{
 	color: #fff;
 	font-size: 45px;
@@ -257,20 +257,7 @@
          </table>
 	      <button type="submit" name="submit" id="submit" onclick="dash()">Submit</button>
       </form>
+
       
-      <script type="text/javascript">
-
-function dash(){
-	var inps = document.querySelectorAll('.input');
-
-[].forEach.call(inps, function(inp) {
-
-  if(inp.value === ""){
-		inp.value = '-';
-	}
-	//console.log(inp.value);
-});
-}
-</script>
    </body>
 </html>
