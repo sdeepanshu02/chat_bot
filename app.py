@@ -110,7 +110,7 @@ def getdata():
         list_of_posts = posts.query.all()
         for each_post in list_of_posts:
             if each_post.post == search_value:
-                result = "The current"+each_post.post+" of svnit is "+each_post.name
+                result = "The current "+each_post.post+" of svnit is "+each_post.name
 
     elif intentName == "details_of_post":
         detail_term = parameters_dict["details"]
@@ -169,7 +169,7 @@ def getdata():
                 result = "Sorry, this book is not currently available."
                 flag=1
         if flag == 0:
-            result="This book is not available in library."
+            result="This book is not available in library!"
 
     elif intentName == "wiki":
         search_term = parameters_dict["wiki_term"]
@@ -360,6 +360,7 @@ def exam_time_table_post():
     dept_name = (request.form['dept']).upper()
     year = request.form['year']
     sem = request.form['semester']
+    toe = request.form['toe']
 
     date1 = (request.form['1']).upper()
     sub1 = (request.form['2']).upper()
@@ -381,7 +382,7 @@ def exam_time_table_post():
     sub5 = (request.form['14']).upper()
     time5 = (request.form['15']).upper()
 
-    exam_time_table_msg = "Exam Time Table\n---------------\nDepartment: " + dept_name + "\nYear: " + year + "\nSemester: " + sem + "\n---------------------\n"+date1+"\n"+sub1+"\n"+time1
+    exam_time_table_msg = toe+" Time Table\n---------------\nDepartment: " + dept_name + "\nYear: " + year + "\nSemester: " + sem + "\n---------------------\n"+date1+"\n"+sub1+"\n"+time1
     exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date2+"\n"+sub2+"\n"+time2
     exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date3+"\n"+sub3+"\n"+time3
     exam_time_table_msg = exam_time_table_msg + "\n---------------------\n"+date4+"\n"+sub4+"\n"+time4
@@ -467,7 +468,7 @@ def check_duedate():
     for each_issue in list_of_book_issue:
         users = subscribers.query.filter(subscribers.roll_no == each_issue.stu_roll_no).all()
         for each_user in users:
-            due_message = "Book Due Date Reminder\n--------------\n.You have issued "+each_issue.book_name+" book whose due date is "+str(each_issue.due_date)[0:11]
+            due_message = "Book Due Date Reminder\n--------------\nYou have issued "+each_issue.book_name+" book whose due date is "+str(each_issue.due_date)[0:11]
             send_message(each_user.user_fb_id,due_message)
         db.session.query(book_issue).filter(book_issue.book_name==each_issue.book_name).filter(book_issue.stu_roll_no == each_issue.stu_roll_no).update({book_issue.reminded:True})
         db.session.commit()
