@@ -5,12 +5,26 @@
       <style media="screen">
          @import url(http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100);
          body {
-         background-color: #3e94ec;
+         background-image: url("http://cdn.wallpapersafari.com/72/52/Vb439p.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 210px;
          font-family: "Roboto", helvetica, arial, sans-serif;
          font-size: 16px;
          font-weight: 400;
          text-rendering: optimizeLegibility;
          }
+	      
+	 #submit{
+	margin-top: 2em;
+	margin-left: 590px;
+	/*align: center;*/
+	width: 95px;
+	height: 35px;
+	color: #fff;
+	font-weight: bold;
+	background-color: #2f79ef;
+
+} 
          div.table-title {
          display: block;
          margin: auto;
@@ -76,10 +90,15 @@
          tr:nth-child(odd) td {
          background:#EBEBEB;
          }
-         #submit{
-         margin-top: 2em;
-         margin-left: 8.5em;
-         }
+  
+	      label{
+	color: #fff;
+}
+	      
+	  h1{
+	color: #fff;
+	font-size: 45px;
+}
          tr:last-child td:first-child {
          border-bottom-left-radius:3px;
          }
@@ -122,6 +141,9 @@
          padding-left: 40px;
          padding-right: 40px;
          }
+	 .right{
+	margin-left: 190px;
+}
          #right{
          margin-left: 210px;
          }
@@ -133,7 +155,7 @@
    </head>
    <body>
       <div class="table-title">
-         <h3 align="center">Time Table</h3>
+         <h1 align="center">Time Table</h1>
       </div>
       <form action="https://jarvis-amoc.herokuapp.com/daily_time_table_post" method="Post">
          <label id="right">Department:        </label><input id="dept" name="dept" type="text" size="17" required>

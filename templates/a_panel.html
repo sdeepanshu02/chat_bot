@@ -13,7 +13,7 @@
 
 
   body{
-    background-image: url("index.png");
+    background-image: url("http://cdn.wallpapersafari.com/72/52/Vb439p.jpg");
     background-repeat: no-repeat;
     background-size: 100% 200px;
     /*opacity: 50%;*/
@@ -79,6 +79,16 @@ font-size: 50px;
       /*visibility: collapse;*/
     }
 
+        .outer
+{
+    width:100%;
+    text-align: center;
+}
+.inner
+{
+    display: inline-block;
+}
+
     #vis{
       display: none;
       background-color: #000;
@@ -102,33 +112,35 @@ font-size: 50px;
   <hgroup>
   <h1>Admin Panel</h1>
 </hgroup>
+<div class="outer">
 <form action="">
   <div visibility="hidden" id="vis">
-  <form method="get" id="hidee" action="indexlib.html">
+  <form class="inner" method="get" id="hidee" action="indexlib.html">
       <input type="text" name="hide" id="hide" value="">
   </form>
 </div>
-  <form method="get" action="indexstu.html">
+  <form class="inner" method="get" action="send_notification_stu_chap">
       <button type="submit">Student Notification</button>
   </form>
-  <form method="get" action="indexlib.html">
+  <form class="inner" method="get" action="book_entry">
       <button type="submit">Library Books</button>
   </form>
-  <form method="get" action="indexlib.html">
-      <button type="submit">Library Books</button>
-  </form>
-  <form method="get" action="indexissue.html">
+  <form class="inner" method="get" action="book_issue">
       <button type="submit">Library Books Issue</button>
   </form>
-  <form method="get" action="q_papers.html">
+  <form class="inner" method="get" action="prev_papers_entry">
       <button type="submit">Previous Year's Papers</button>
-  </form>
-  <form method="get" action="tt.html">
+  </form><br><br>
+  <form class="inner" method="get" action="daily_time_table">
       <button type="submit">Time Table</button>
   </form>
-  <form id="forme" method="get" action="e_tt.html">
+  <form class="inner" id="forme" method="get" action="exam_time_table">
       <button type="submit">Exam Time Table</button>
   </form>
+  <form class="inner" id="db" method="get" action="showdb">
+      <button type="submit">Show Database</button>
+  </form>
 </form>
+</div>
 </body>
 </html>

@@ -14,6 +14,8 @@ import wikipedia
 from operator import itemgetter,attrgetter
 from time import strftime
 import pytz
+from wordnik import *
+import urllib2
 
 app = Flask(__name__)
 CLIENT_ACCESS_TOKEN = '6dc4dd64472140deaad4cbe8f39ff10f'   #apiai client access_token
@@ -54,21 +56,25 @@ def webhook():
                     sender_id = messaging_event["sender"]["id"]        # the facebook ID of the person sending you the message
                     recipient_id = messaging_event["recipient"]["id"]  # the recipient's ID, which should be your page's facebook ID
                     message_text = messaging_event["message"]["text"]  # the message's text
-                    if(sender_id != '1639100099730911'):
-                        upper_case_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                        digits = "0123456789"
-                        sessionID = ''.join(random.SystemRandom().choice(upper_case_letters + digits) for _ in range(7))
-                        s = sessions(senderID = sender_id, sessionsID = sessionID)
-                        db.session.add(s)
-                        db.session.commit()
 
-                        regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
-                        pattern = re.compile(regex)
-                        string = message_text.upper()
-                        if pattern.match(string):
-                            add_subscriber(string,sender_id)
-                            send_message(sender_id, "You have been sucessfully subscribed !!")
+                    regex = "SUBSCRIBE.[UuPpIi].[0-9].[a-zA-z].[0-9][0-9]"
+                    pattern = re.compile(regex)
+                    string = message_text.upper()
+                    if pattern.match(string):
+                        add_subscriber(string,sender_id)
+                        send_message(sender_id, "You have been sucessfully subscribed !!")
+                    else:
+                        users = subscribers.query.filter(subscribers.user_fb_id == sender_id).all()
+                        if not users:
+                            send_message(sender_id, "You have not subscribed yet !!!!\nPlease Subscribe to use the bot")
+                            send_message(sender_id, "To Subscribe send message\nEg. SUBSCRIBE U15COXXX")
                         else:
+                            upper_case_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                            digits = "0123456789"
+                            sessionID = ''.join(random.SystemRandom().choice(upper_case_letters + digits) for _ in range(7))
+                            s = sessions(senderID = sender_id, sessionsID = sessionID)
+                            db.session.add(s)
+                            db.session.commit()
                             send_message(sender_id, process_text_message(message_text,sessionID))
                             db.session.delete(s)
                             db.session.commit()
@@ -97,10 +103,10 @@ def getdata():
     sess_ID = data["sessionId"]
 
     print("************"+intentName+"***********"+sess_ID)
-    result = "I don't know"
+    result = "Sorry, I didn't get you !!"
 
     if intentName == "posts":                       # If Query is for post search in posts table
-        search_value = parameters_dict["post"]   #retrive the search term
+        search_value = parameters_dict["post"]      #retrive the search term
         list_of_posts = posts.query.all()
         for each_post in list_of_posts:
             if each_post.post == search_value:
@@ -164,46 +170,59 @@ def getdata():
                 flag=1
         if flag == 0:
             result="This book is not available in library."
+
     elif intentName == "wiki":
-        wiki_search_term = parameters_dict["wiki_term"]
-        try:
-            result = "Here is what I found out.\n\n" + str(wikipedia.summary(wiki_search_term, sentences=3))
-        except wikipedia.exceptions.DisambiguationError as e:
-            result = "Here is what I found out.\n\n" + str(wikipedia.summary(e.options[0], sentences=3))
+        search_term = parameters_dict["wiki_term"]
+        apiUrl = 'http://api.wordnik.com/v4'
+        apiKey = 'bec804c1fabd2417d9d79063cc00b33789b1d3470999f37af'
+        client = swagger.ApiClient(apiKey, apiUrl)
+        wordApi = WordApi.WordApi(client)
+        definitions = wordApi.getDefinitions(search_term,limit=10)
+        if not definitions:
+            result = "Sorry, I could not find any match for the word.\nPlease check if your word is correct."
+        else:
+            result = search_term + "\n---------------------\n"+definitions[0].text
 
     elif intentName == "previous_year_paper":
         dept = (parameters_dict["department"]).upper()
         subject = (parameters_dict["subject"]).upper()
-        result = ""
+        result = "Here is links of previous year papers of " + subject + "\n----------------------"
+        flag = 0
         list_of_papers = prev_papers.query.all()
         for each_paper in list_of_papers:
             if (each_paper.subject == subject and each_paper.dept_name == dept):
+                flag = 1
                 result = result + each_paper.year + " URL: " + each_paper.url + "\n\n"
+
+        if flag == 0:
+            result = "Sorry, I could not found previous year papers of " + subject
 
     elif intentName == "map_search":
         maps_query = parameters_dict["map_query_term"]
         query_result = requests.get('https://maps.googleapis.com/maps/api/place/textsearch/json?query='+maps_query+'&location=21.167171%2C72.785145&radius=7000&key=AIzaSyBwyRj5vcOaRV9hRp_9MBph81hdyIsG2Wc')
-        query_result_json = json.loads(query_result.content)
+        query_result_list = json.loads(query_result.content)['results']
         list_of_places=[]
-        #print(query_result_json)
-        for place in query_result_json['results']:
-            address = place['formatted_address']
-            name_of_place = place['name']
-            place_rating = place['rating']
-            det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
-            list_of_places.append(det_of_place)
+        if not query_result_list:
+            result = "Sorry, I couldn't understand your query!!!\nPlease be more specific..."
+        else:
+            for place in query_result_list:
+                address = place['formatted_address']
+                name_of_place = place['name']
+                place_rating = place['rating']
+                det_of_place={'rating':place_rating,'name_of_place':name_of_place,'address':address}
+                list_of_places.append(det_of_place)
 
-        list_of_places.sort(key=itemgetter('rating'),reverse=True)
-        result=""
-        r=""
-        send_id=str(db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID)
+            list_of_places.sort(key=itemgetter('rating'),reverse=True)
+            result=""
+            r=""
+            send_id=str(db.session.query(sessions).filter(sessions.sessionsID==sess_ID).all()[0].senderID)
 
-        send_message(send_id,"Here is what I found:")
-        for place in list_of_places[0:6]:
-            r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
-            send_message(send_id,r)
-        place=list_of_places[6]
-        result="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
+            send_message(send_id,"Here is what I found:")
+            for place in list_of_places[0:6]:
+                r="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
+                send_message(send_id,r)
+            place=list_of_places[6]
+            result="Name: "+place['name_of_place']+"\n"+"Address: "+place['address']+"\n"+"Rating: "+str(place['rating'])+"\n"+"---------------\n"
 
     elif intentName == "reminder_task":
         remind_text = parameters_dict["remind_text"]
@@ -230,6 +249,10 @@ def getdata():
 
     return r
 
+@app.route('/admin')       #Admin Panel of BOT
+def admin():
+    return render_template("a_panel.html")
+
 @app.route('/send_notification_stu_chap')       #Function to send notification of stu chap
 def send_notification_stu_chap():
     return render_template("indexstu.html")
@@ -253,63 +276,6 @@ def exam_time_table():
 @app.route('/daily_time_table')       #Function to enter exam time table details
 def daily_tt():
     return render_template("tt.html")
-
-@app.route('/check_reminder',methods=['GET'])
-def check_reminder():
-    list_of_reminders = reminders.query.all()
-    ist = datetime.now(pytz.timezone('Asia/Kolkata'))
-    curr_time = datetime.strptime(ist.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')
-    for each_reminder in list_of_reminders:
-        reminder_time = datetime.strptime(each_reminder.reminder_time,'%Y-%m-%d %H:%M:%S')
-        if ((reminder_time - curr_time).total_seconds()<=7200):
-            msg="Your event "+each_reminder.reminder_text+" is about to begin shortly"
-            send_message(each_reminder.senderID,msg)
-            db.session.delete(each_reminder)
-            db.session.commit()
-    return "Success"
-
-@app.route('/check_duedate',methods=['GET'])
-def check_duedate():
-    check_due_date = date.today()+timedelta(days=1)
-    list_of_book_issue=book_issue.query.filter(book_issue.due_date == check_due_date).filter(book_issue.reminded == False).all()
-    for each_issue in list_of_book_issue:
-        users = subscribers.query.filter(subscribers.roll_no == each_issue.stu_roll_no).all()
-        for each_user in users:
-            due_message = "Book Due Date Reminder\n--------------\n.You have issued "+each_issue.book_name+" book whose due date is "+str(each_issue.due_date)[0:11]
-            send_message(each_user.user_fb_id,due_message)
-        db.session.query(book_issue).filter(book_issue.book_name==each_issue.book_name).filter(book_issue.stu_roll_no == each_issue.stu_roll_no).update({book_issue.reminded:True})
-        db.session.commit()
-    return "Success"
-
-
-@app.route('/send_dailytt',methods=['GET'])
-def send_dailytt():
-        curr = datetime.utcnow()
-        curr_year = curr.year%2000
-        ist=datetime.now(pytz.timezone('Asia/Kolkata'))
-        week_day=1#ist.isoweekday()
-
-        daily_time_table_list = daily_time_table.query.filter(daily_time_table.day_of_week == week_day).all()
-        users=subscribers.query.all()
-        for each_time_table in daily_time_table_list:
-            tt_dept = each_time_table.department
-            tt_year = each_time_table.year
-            subjects=each_time_table.subjects.split('$')
-            time_slots = ["8:30 - 9:25","9:25 - 10:20","10:30 - 11:25","11:25 - 12:20","14:00 - 14:55","14:55 - 15:50","15:50 - 16:45","16:45 - 17:40"]
-
-            daily_time_table_msg="Your Today's Time Table:\n-----------\n"
-            for i in range(0,8):
-                daily_time_table_msg = daily_time_table_msg + time_slots[i] + " - " + subjects[i+1] + "\n"
-            for each_user in users:
-                roll = each_user.roll_no
-                year_of_adm = roll[1:3]
-                dept_of_adm = roll[3:5]
-                if curr.month >= 7:
-                    year_of_adm = int(year_of_adm)+1
-                if (str(tt_year) == str(int(curr_year) - int(year_of_adm))) and tt_dept == str(dept_of_adm):
-                    send_message(each_user.user_fb_id,daily_time_table_msg)
-
-        return "Success"
 
 @app.route('/send_notification_stu_chap_post',methods=['POST'])       #Function to send notification of stu chap
 def send_notification_stu_chap_post():
@@ -480,6 +446,62 @@ def daily_time_table_post():
     db.session.commit()
     return "successfully inserted Time Table"
 
+@app.route('/check_reminder',methods=['GET'])
+def check_reminder():
+    list_of_reminders = reminders.query.all()
+    ist = datetime.now(pytz.timezone('Asia/Kolkata'))
+    curr_time = datetime.strptime(ist.strftime("%Y-%m-%d %H:%M:%S"), '%Y-%m-%d %H:%M:%S')
+    for each_reminder in list_of_reminders:
+        reminder_time = datetime.strptime(each_reminder.reminder_time,'%Y-%m-%d %H:%M:%S')
+        if ((reminder_time - curr_time).total_seconds()<=7200):
+            msg="Your event "+each_reminder.reminder_text+" is about to begin shortly"
+            send_message(each_reminder.senderID,msg)
+            db.session.delete(each_reminder)
+            db.session.commit()
+    return "Success"
+
+@app.route('/check_duedate',methods=['GET'])
+def check_duedate():
+    check_due_date = date.today()+timedelta(days=1)
+    list_of_book_issue=book_issue.query.filter(book_issue.due_date == check_due_date).filter(book_issue.reminded == False).all()
+    for each_issue in list_of_book_issue:
+        users = subscribers.query.filter(subscribers.roll_no == each_issue.stu_roll_no).all()
+        for each_user in users:
+            due_message = "Book Due Date Reminder\n--------------\n.You have issued "+each_issue.book_name+" book whose due date is "+str(each_issue.due_date)[0:11]
+            send_message(each_user.user_fb_id,due_message)
+        db.session.query(book_issue).filter(book_issue.book_name==each_issue.book_name).filter(book_issue.stu_roll_no == each_issue.stu_roll_no).update({book_issue.reminded:True})
+        db.session.commit()
+    return "Success"
+
+@app.route('/send_dailytt',methods=['GET'])
+def send_dailytt():
+        curr = datetime.utcnow()
+        curr_year = curr.year%2000
+        ist=datetime.now(pytz.timezone('Asia/Kolkata'))
+        week_day=1#ist.isoweekday()
+
+        daily_time_table_list = daily_time_table.query.filter(daily_time_table.day_of_week == week_day).all()
+        users=subscribers.query.all()
+        for each_time_table in daily_time_table_list:
+            tt_dept = each_time_table.department
+            tt_year = each_time_table.year
+            subjects=each_time_table.subjects.split('$')
+            time_slots = ["8:30 - 9:25","9:25 - 10:20","10:30 - 11:25","11:25 - 12:20","14:00 - 14:55","14:55 - 15:50","15:50 - 16:45","16:45 - 17:40"]
+
+            daily_time_table_msg="Your Today's Time Table:\n-----------\n"
+            for i in range(0,8):
+                daily_time_table_msg = daily_time_table_msg + time_slots[i] + " - " + subjects[i+1] + "\n"
+            for each_user in users:
+                roll = each_user.roll_no
+                year_of_adm = roll[1:3]
+                dept_of_adm = roll[3:5]
+                if curr.month >= 7:
+                    year_of_adm = int(year_of_adm)+1
+                if (str(tt_year) == str(int(curr_year) - int(year_of_adm))) and tt_dept == str(dept_of_adm):
+                    send_message(each_user.user_fb_id,daily_time_table_msg)
+
+        return "Success"
+
 def process_text_message(msg,s_id):
     ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
     request = ai.text_request()    #make call to api.ai api
@@ -498,15 +520,48 @@ def process_text_message(msg,s_id):
     else:
         return ("Sorry, I couldn't understand that question")
 
-
-@app.route('/seeallpost',methods=['GET'])       #Function to see all entry in posts
-def seeallpost():
-    a=posts.query.all()
-    log(a)
-    log("hello")
+@app.route('/showdb',methods=['GET'])       #Function to see all entry in posts
+def showdb():
     x=""
+    a=posts.query.all()
     for p in a:
         x=x+p.name+" "+p.post+" "+p.contact+" "+p.email+"<br>"
+    x = x + "<br><br><br>"
+    a=warden.query.all()
+    for p in a:
+        x=x+p.name+" "+p.hostelname+" "+p.contact+" "+p.email+"<br>"
+    x = x + "<br><br><br>"
+    a=hod.query.all()
+    for p in a:
+        x=x+p.name+" "+p.deptname+" "+p.contact+" "+p.email+"<br>"
+    x = x + "<br><br><br>"
+    a=subscribers.query.all()
+    for p in a:
+        x=x+p.roll_no+" "+p.user_fb_id+"<br>"
+    x = x + "<br><br><br>"
+    a=lib_books.query.all()
+    b=book_issue.query.all()
+    for p in a:
+        x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+str(p.price)+" "+str(p.no_of_copies)+"<br>"
+    x = x + "<br><br><br>"
+    for p in b:
+        x=x+p.book_name+" "+p.stu_roll_no+" "+str(p.issue_date)+" "+str(p.due_date)+" "+str(p.reminded)+"<br>"
+    x = x + "<br><br><br>"
+    a=prev_papers.query.all()
+    for p in a:
+        x=x+p.dept_name+" "+p.year+" "+p.semester+" "+p.subject+" "+p.exam_type+" "+p.url+"<br>"
+    x = x + "<br><br><br>"
+    a=reminders.query.all()
+    for p in a:
+        x=x+p.senderID+" "+p.reminder_text+" "+p.reminder_time+" "+str(p.reminded)+"<br>"
+    x = x + "<br><br><br>"
+    a=daily_time_table.query.all()
+    for p in a:
+        x=x+p.department+" "+p.year+" "+p.semester+" "+str(p.day_of_week)+p.subjects+"<br>"
+    x = x + "<br><br><br>"
+    a=sessions.query.all()
+    for p in a:
+        x=x+p.senderID+" "+p.sessionsID+"<br>"
     return x
 
 @app.route('/add/posts/<details>',methods=['GET'])      #Function for add entry in posts
@@ -517,35 +572,29 @@ def addposts(details):
     db.session.commit()
     return "sucessfully added"
 
-@app.route('/del/posts/all',methods=['GET'])    #Function for delete all values in posts
+@app.route('/delposts',methods=['GET'])    #Function for delete all values in posts
 def delposts():
     posts.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
-@app.route('/seeallsubscribers',methods=['GET'])       #Function to see all entry in subscribers
-def seeallsubscribers():
-    a=subscribers.query.all()
-    log(a)
-    log("hello")
-    x=""
-    for p in a:
-        x=x+p.roll_no+" "+p.user_fb_id+"<br>"
-    return x
+@app.route('/delsubscribers',methods=['GET'])    #Function for delete all values in subscribers
+def delsubscribers():
+    subscribers.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
 
-@app.route('/seelib',methods=['GET'])       #Function to see all entry in library
-def seelib():
-    a=lib_books.query.all()
-    b=book_issue.query.all()
-    log(a)
-    log("hello")
-    x=""
-    for p in a:
-        x=x+p.book_id+" "+p.book_name+" "+p.author_name+" "+str(p.price)+" "+str(p.no_of_copies)+"<br>"
-    x = x + "<br><br><br>"
-    for p in b:
-        x=x+p.book_name+" "+p.stu_roll_no+" "+str(p.issue_date)+" "+str(p.due_date)+" "+str(p.reminded)+"<br>"
-    return x
+@app.route('/delwarden',methods=['GET'])    #Function for delete all values in posts
+def delwarden():
+    warden.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
+
+@app.route('/delhod',methods=['GET'])    #Function for delete all values in posts
+def delhod():
+    hod.query.delete()
+    db.session.commit()
+    return "sucessfully deleted"
 
 @app.route('/dellib',methods=['GET'])       #Function to del all entry in library
 def dellib():
@@ -554,76 +603,25 @@ def dellib():
     db.session.commit()
     return "sucessfully deleted"
 
-@app.route('/seeprevpapers',methods=['GET'])       #Function to see all entry in prev_papers
-def seeprevpapers():
-    a=prev_papers.query.all()
-    log(a)
-    log("hello")
-    x=""
-    for p in a:
-        x=x+p.dept_name+" "+p.year+" "+p.semester+" "+p.subject+" "+p.exam_type+" "+p.url+"<br>"
-    return x
-
 @app.route('/delprevpapers',methods=['GET'])       #Function to del all entry in prev_papers
 def delprevpapers():
     prev_papers.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
-@app.route('/add/subscribers/',methods=['GET'])      #Function for add entry in subscribers
-def addsubscribers():
-    user = subscribers(roll_no = 'U15CO061', user_fb_id = 'hfsakjhskajhsk')
-    db.session.add(user)
-    db.session.commit()
-    return "sucessfully added"
-
-@app.route('/del/subscribers/all',methods=['GET'])    #Function for delete all values in subscribers
-def delsubscribers():
-    subscribers.query.delete()
+@app.route('/delsessions',methods=['GET'])    #Function for delet all values in subscribers
+def delsessions():
+    sessions.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
-@app.route('/del/reminders/all',methods=['GET'])    #Function for delet all values in subscribers
+@app.route('/delreminders',methods=['GET'])    #Function for delet all values in subscribers
 def delreminders():
     reminders.query.delete()
     db.session.commit()
     return "sucessfully deleted"
 
-
-@app.route('/cron_test',methods=['GET'])    #Function for testing cron scheduling
-def cron_test():
-    curr_time = datetime.utcnow()
-    send_message("1690740887619815","Hola It's "+str(curr_time)+" now")
-    return "sucessful"
-
-@app.route('/seeallsessions',methods=['GET'])    #Function for testing cron scheduling
-def seeallsessions():
-    a=sessions.query.all()
-    log(a)
-    x=""
-    for p in a:
-        x=x+p.senderID+" "+p.sessionsID+"<br>"
-    return x
-
-@app.route('/seeallreminders',methods=['GET'])    #Function to see all reminders
-def seeallreminders():
-    a=reminders.query.all()
-    log(a)
-    x=""
-    for p in a:
-        x=x+p.senderID+" "+p.reminder_text+" "+p.reminder_time+" "+str(p.reminded)+"<br>"
-    return x
-
-@app.route('/seedailytt',methods=['GET'])    #Function to see all reminders
-def seedailytt():
-    a=daily_time_table.query.all()
-    log(a)
-    x=""
-    for p in a:
-        x=x+p.department+" "+p.year+" "+p.semester+" "+str(p.day_of_week)+p.subjects+"<br>"
-    return x
-
-@app.route('/del/dailytt/all',methods=['GET'])    #Function for delete all values in daily_time_table
+@app.route('/deldailytt',methods=['GET'])    #Function for delete all values in daily_time_table
 def deldailytt():
     daily_time_table.query.delete()
     db.session.commit()
