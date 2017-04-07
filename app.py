@@ -132,11 +132,11 @@ def getdata():
         for each_hod in list_of_hods:
             if each_hod.deptname == dept_name:
                 if detail_term == "name":
-                    result = "The name of hod of "+each_hod.department + " is "+each_hod.name
+                    result = "The name of hod of "+each_hod.deptname + " is "+each_hod.name
                 elif detail_term == "contact":
-                    result = "The contact of hod of "+each_hod.department + " is "+each_post.name
+                    result = "The contact of hod of "+each_hod.deptname + " is "+each_post.name
                 elif detail_term == "email":
-                    result = "The email of hod "+each_hod.department + " is "+each_post.name
+                    result = "The email of hod "+each_hod.deptname + " is "+each_post.name
 
     elif intentName == "details_of_warden":
         detail_term = parameters_dict["details"]
@@ -145,11 +145,11 @@ def getdata():
         for each_warden in list_of_wardens:
             if each_warden.hostelname == hostel_name:
                 if detail_term == "name":
-                    result ="The name of warden of "+each_warden.hostel + " is "+each_warden.name
+                    result ="The name of warden of "+each_warden.hostelname + " is "+each_warden.name
                 elif detail_term == "contact":
-                    result ="The contact of warden of "+each_warden.hostel + " is "+each_warden.contact
+                    result ="The contact of warden of "+each_warden.hostelname + " is "+each_warden.contact
                 elif detail_term == "email":
-                    result ="The eamil of warden of "+each_warden.hostel + " is "+each_warden.email
+                    result ="The eamil of warden of "+each_warden.hostelname + " is "+each_warden.email
 
     elif intentName == "search_books":
         book_name_to_search = (parameters_dict["book_name"]).upper()
