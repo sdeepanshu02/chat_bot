@@ -104,7 +104,7 @@ def getdata():
         list_of_posts = posts.query.all()
         for each_post in list_of_posts:
             if each_post.post == search_value:
-                result = each_post.name
+                result = "The "+each_post.post+" is:"+each_post.name
 
     elif intentName == "details_of_post":
         detail_term = parameters_dict["details"]
