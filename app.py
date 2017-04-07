@@ -572,6 +572,22 @@ def addposts(details):
     db.session.commit()
     return "sucessfully added"
 
+@app.route('/add/hod/<details>',methods=['GET'])      #Function for add entry in hod
+def addhod(details):
+    get_name, get_dept, get_contact, get_email = details.split('_')
+    hodinf = hod(name = get_name, deptname = get_dept, contact = get_contact, email = get_email)
+    db.session.add(hodinf)
+    db.session.commit()
+    return "sucessfully added"
+
+@app.route('/add/warden/<details>',methods=['GET'])      #Function for add entry in warden
+def addwarden(details):
+    get_name, get_hostel, get_contact, get_email = details.split('_')
+    wardeninf = warden(name = get_name, hostelname = get_hostel, contact = get_contact, email = get_email)
+    db.session.add(wardeninf)
+    db.session.commit()
+    return "sucessfully added"
+
 @app.route('/delposts',methods=['GET'])    #Function for delete all values in posts
 def delposts():
     posts.query.delete()
