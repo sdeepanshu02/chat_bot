@@ -110,7 +110,7 @@ def getdata():
         list_of_posts = posts.query.all()
         for each_post in list_of_posts:
             if each_post.post == search_value:
-                result = "The "+each_post.post+" is:"+each_post.name
+                result = "The current"+each_post.post+" of svnit is "+each_post.name
 
     elif intentName == "details_of_post":
         detail_term = parameters_dict["details"]
@@ -119,11 +119,11 @@ def getdata():
         for each_post in list_of_posts:
             if each_post.post == search_entity:
                 if detail_term == "name":
-                    result = each_post.name
+                    result ="The name of "+each_post.post + " is "+each_post.name
                 elif detail_term == "contact":
-                    result = each_post.contact
+                    result = "The contact of "+each_post.post+" is "+each_post.contact
                 elif detail_term == "email":
-                    result = each_post.email
+                    result = "The email of "+each_post.email+" is "+each_post.email
 
     elif intentName == "details_of_hod":
         detail_term = parameters_dict["details"]
@@ -132,11 +132,11 @@ def getdata():
         for each_hod in list_of_hods:
             if each_hod.deptname == dept_name:
                 if detail_term == "name":
-                    result = each_hod.name
+                    result = "The name of hod of "+each_hod.department + " is "+each_hod.name
                 elif detail_term == "contact":
-                    result = each_hod.contact
+                    result = "The contact of hod of "+each_hod.department + " is "+each_post.name
                 elif detail_term == "email":
-                    result = each_hod.email
+                    result = "The email of hod "+each_hod.department + " is "+each_post.name
 
     elif intentName == "details_of_warden":
         detail_term = parameters_dict["details"]
@@ -145,11 +145,11 @@ def getdata():
         for each_warden in list_of_wardens:
             if each_warden.hostelname == hostel_name:
                 if detail_term == "name":
-                    result = each_warden.name
+                    result ="The name of warden of "+each_warden.hostel + " is "+each_warden.name
                 elif detail_term == "contact":
-                    result = each_warden.contact
+                    result ="The contact of warden of "+each_warden.hostel + " is "+each_warden.contact
                 elif detail_term == "email":
-                    result = each_warden.email
+                    result ="The eamil of warden of "+each_warden.hostel + " is "+each_warden.email
 
     elif intentName == "search_books":
         book_name_to_search = (parameters_dict["book_name"]).upper()
@@ -454,7 +454,7 @@ def check_reminder():
     for each_reminder in list_of_reminders:
         reminder_time = datetime.strptime(each_reminder.reminder_time,'%Y-%m-%d %H:%M:%S')
         if ((reminder_time - curr_time).total_seconds()<=7200):
-            msg="Your event "+each_reminder.reminder_text+" is about to begin shortly"
+            msg="Your event "+each_reminder.reminder_text+" is about to begin at "+(reminder_time - curr_time).total_seconds()/3600+" hours"+(reminder_time - curr_time).total_seconds()%60+" minutes"
             send_message(each_reminder.senderID,msg)
             db.session.delete(each_reminder)
             db.session.commit()
