@@ -287,9 +287,9 @@ def send_notification_stu_chap_post():
     time = request.form['time']
     venue = request.form['venue']
     tar_yr = request.form['tar_yr']
-    tr1 = request.form.getlist('tar_yr1')
+    years = request.form.getlist('tar_yr1')
 
-    years=tar_yr.split('_')
+    #years=tar_yr.split('_')
     for each_year in years:
         each_year=int(each_year)
         users=subscribers.query.all()
