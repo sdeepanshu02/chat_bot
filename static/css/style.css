@@ -72,12 +72,12 @@ label {
 
 
 /* active */
-input:focus ~ label, input.used ~ label {
+/*input:focus ~ label, input.used ~ label {
 	top: -20px;
 	float: left;
 	color: #4a89dc;
 	outline: 1px solid transparent;
-}
+}*/
 
 
 /* Underline */
